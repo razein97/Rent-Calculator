@@ -1,15 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:go_router/go_router.dart';
 
-class BuildingContainer extends StatelessWidget {
+class BuildingCard extends StatelessWidget {
   final int numberOfHomes;
   final String nameOfBuilding;
   final double width;
   final double height;
-
-  const BuildingContainer(
+  const BuildingCard(
       {super.key,
       required this.numberOfHomes,
       required this.nameOfBuilding,
@@ -18,11 +15,16 @@ class BuildingContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      child: ElevatedButton(
-        onPressed: (() => {}),
+    return RawMaterialButton(
+      fillColor: Colors.blue,
+      hoverColor: Colors.blue.shade600,
+      onPressed: () {
+        GoRouter.of(context).go('/compartments');
+      },
+      child: SizedBox(
+        // color: Colors.blue.shade400,
+        width: width,
+        height: height,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,

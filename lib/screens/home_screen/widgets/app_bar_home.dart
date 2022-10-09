@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:rent_calculator/helpers/database_helpers.dart';
+import 'package:rent_calculator/providers/building_provider.dart';
 import 'package:rent_calculator/screens/home_screen/widgets/text_input_container.dart';
 
 class AppBarHome extends StatefulWidget with PreferredSizeWidget {
@@ -38,6 +40,7 @@ class _AppBarHomeState extends State<AppBarHome> {
   Widget build(BuildContext context) {
     bool saving = false;
     return AppBar(
+      automaticallyImplyLeading: true,
       title: const Text("Rent Calculator"),
       actions: [
         IconButton(
@@ -85,7 +88,6 @@ class _AppBarHomeState extends State<AppBarHome> {
                                         const SizedBox(
                                           height: 15,
                                         ),
-
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -185,29 +187,6 @@ class _AppBarHomeState extends State<AppBarHome> {
                                                                             .blue,
                                                                         width:
                                                                             0.5)),
-                                                            // onLongPress: () =>
-                                                            //     Future.delayed(
-                                                            //         const Duration(
-                                                            //             milliseconds:
-                                                            //                 1),
-                                                            //         () {
-                                                            //   var timer = Timer
-                                                            //       .periodic(
-                                                            //           //milliseconds: 500 = increase speed
-                                                            //           const Duration(
-                                                            //               milliseconds:
-                                                            //                   500),
-                                                            //           (Timer t) =>
-                                                            //               setState(
-                                                            //                   () {
-                                                            //                 if (compartments ==
-                                                            //                     0) {
-                                                            //                   compartments = 0;
-                                                            //                 } else {
-                                                            //                   compartments -= 1;
-                                                            //                 }
-                                                            //               }));
-                                                            // }),
                                                             onPressed: () =>
                                                                 setState(() {
                                                               if (compartments ==
@@ -229,13 +208,6 @@ class _AppBarHomeState extends State<AppBarHome> {
                                             ),
                                           ],
                                         )
-                                        // TextInputContainer(
-                                        //   textEditingController:
-                                        //       _textCompEditingController,
-                                        //   labelInputText:
-                                        //       'Number of Compartments',
-                                        //   inputType: TextInputType.number,
-                                        // )
                                       ],
                                     ),
                                   )),
@@ -245,11 +217,14 @@ class _AppBarHomeState extends State<AppBarHome> {
                         actions: [
                           OutlinedButton(
                               onPressed: () async {
-                                await DatabaseHelpers.createBuilding(
+                                await Provider.of<BuildingProvider>(context,
+                                        listen: false)
+                                    .createBuilding(
                                   _textNameEditingController.text,
                                   _textAddressEditingController.text,
                                   compartments,
-                                ).then((value) {
+                                )
+                                    .whenComplete(() {
                                   _textNameEditingController.clear();
                                   _textAddressEditingController.clear();
                                   _textCompEditingController.clear();

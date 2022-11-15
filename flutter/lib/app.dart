@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rent_calculator/providers/appData_provider.dart';
 import 'package:rent_calculator/providers/building_provider.dart';
-import 'package:rent_calculator/routing/router.dart';
+import 'package:rent_calculator/routing/router.gr.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -28,11 +28,24 @@ class MaterialAppWithTheme extends StatefulWidget {
 }
 
 class _MaterialAppWithThemeState extends State<MaterialAppWithTheme> {
+  final _appRouter = AppRouter();
+
+  //    @override
+  // void initState() {
+  //   Provider.of<ThemeDataProvider>(context, listen: false)
+  //       .getCurrentThemeSystem();
+  //   super.initState();
+  // }
+
   @override
-  Widget build(BuildContext context) => MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        routerDelegate: AppRouter().router.routerDelegate,
-        routeInformationParser: AppRouter().router.routeInformationParser,
-        routeInformationProvider: AppRouter().router.routeInformationProvider,
-      );
+  Widget build(BuildContext context) {
+    // final theme = Provider.of<ThemeDataProvider>(context);
+    return MaterialApp.router(
+      title: 'Rent Calculator',
+      // theme: theme.getTheme(),
+      routerDelegate: _appRouter.delegate(),
+      routeInformationParser: _appRouter.defaultRouteParser(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
 }

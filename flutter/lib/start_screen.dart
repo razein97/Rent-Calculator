@@ -1,10 +1,11 @@
 import 'dart:io';
-
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rent_calculator/routing/router.gr.dart' as auto_router;
 import 'package:provider/provider.dart';
 import 'package:rent_calculator/providers/building_provider.dart';
+import 'package:path/path.dart' as p;
 
 import 'helpers/database_helpers.dart';
 
@@ -22,32 +23,32 @@ class _StartScreenState extends State<StartScreen> {
     _databaseStuff().whenComplete(() =>
         Provider.of<BuildingProvider>(context, listen: false)
             .getNumberOfBuildings()
-            .whenComplete(() => context.replace("/home")));
+            .whenComplete(() =>
+                AutoRouter.of(context).replace(const auto_router.HomeView())));
   }
 
   Future<void> _databaseStuff() async {
     final Directory appDocumentsDirectory =
         await getApplicationDocumentsDirectory();
 
-    if (await Directory("${appDocumentsDirectory.path}/RentCalculator")
-        .exists()) {
-      String path = '${appDocumentsDirectory.path}/RentCalculator/appData.db';
+    final String savePath =
+        p.join(appDocumentsDirectory.path, 'RentCalculator');
 
-      bool fileExists = await File(path).exists();
+    final String dbPath = p.join(savePath, 'appData.db');
+
+    if (await Directory(savePath).exists()) {
+      bool fileExists = await File(dbPath).exists();
 
       if (!fileExists) {
-        await DatabaseHelpers.createAppDataDb(path);
+        await DatabaseHelpers.createAppDataDb(dbPath);
       }
     } else {
-      await Directory("${appDocumentsDirectory.path}/RentCalculator")
-          .create(recursive: true);
+      await Directory(savePath).create(recursive: true);
 
-      String path = '${appDocumentsDirectory.path}/RentCalculator/appData.db';
-
-      bool fileExists = await File(path).exists();
+      bool fileExists = await File(dbPath).exists();
 
       if (!fileExists) {
-        await DatabaseHelpers.createAppDataDb(path);
+        await DatabaseHelpers.createAppDataDb(dbPath);
       }
     }
   }

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextInputContainer extends StatelessWidget {
   final TextEditingController textEditingController;
   final String labelInputText;
   final TextInputType inputType;
+  final List<TextInputFormatter> inputFormatter;
 
   const TextInputContainer(
       {super.key,
       required this.textEditingController,
       required this.labelInputText,
-      required this.inputType});
+      required this.inputType,
+      required this.inputFormatter});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +24,8 @@ class TextInputContainer extends StatelessWidget {
         autofocus: false,
         keyboardType: inputType,
         onEditingComplete: () {},
+        inputFormatters: inputFormatter,
         decoration: InputDecoration(
-          // labelStyle: Theme.of(context)
-          //     .textTheme
-          //     .bodyText1
-          //     .copyWith(
-          //       fontSize: SizeHelper.displayHeight * 0.022,
-          //     ),
           focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.blue, width: 1.0)),
           labelText: labelInputText,

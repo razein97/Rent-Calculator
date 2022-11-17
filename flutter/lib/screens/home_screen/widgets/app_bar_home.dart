@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rent_calculator/helpers/database_helpers.dart';
@@ -74,6 +75,7 @@ class _AppBarHomeState extends State<AppBarHome> {
                                               _textNameEditingController,
                                           labelInputText: 'Building Name',
                                           inputType: TextInputType.text,
+                                          inputFormatter: const [],
                                         ),
                                         const SizedBox(
                                           height: 15,
@@ -84,6 +86,7 @@ class _AppBarHomeState extends State<AppBarHome> {
                                           labelInputText:
                                               'Address of the building',
                                           inputType: TextInputType.text,
+                                          inputFormatter: const [],
                                         ),
                                         const SizedBox(
                                           height: 15,
@@ -242,6 +245,10 @@ class _AppBarHomeState extends State<AppBarHome> {
                               )),
                           OutlinedButton(
                               onPressed: () {
+                                _textNameEditingController.clear();
+                                _textAddressEditingController.clear();
+                                _textCompEditingController.clear();
+                                compartments = 0;
                                 Navigator.pop(context);
                               },
                               child: Row(

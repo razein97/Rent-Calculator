@@ -24,20 +24,23 @@ class _NotEmptyHomeState extends State<NotEmptyHome> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Wrap(alignment: WrapAlignment.start, children: [
-          for (var row
-              in Provider.of<BuildingProvider>(context, listen: true).buildings)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: BuildingCard(
-                  numberOfHomes: row['compartments'] ?? 0,
-                  nameOfBuilding: row['name'],
-                  width: 300,
-                  height: 250),
-            )
-        ]),
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(1.0),
+          child: Wrap(alignment: WrapAlignment.start, children: [
+            for (var row in Provider.of<BuildingProvider>(context, listen: true)
+                .buildings)
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: BuildingCard(
+                    buildingId: row['id'],
+                    numberOfHomes: row['units'] ?? 0,
+                    nameOfBuilding: row['name'],
+                    width: 300,
+                    height: 250),
+              )
+          ]),
+        ),
       ),
     );
   }

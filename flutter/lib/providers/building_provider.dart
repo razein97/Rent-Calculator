@@ -14,4 +14,19 @@ class BuildingProvider extends ChangeNotifier {
     await getNumberOfBuildings();
     notifyListeners();
   }
+
+  late int unitsInBuilding;
+  Future<ResultSet> getNumberOfUnits(int buildingID) async {
+    ResultSet units = await DatabaseHelpers.getAllUnitsInBID(buildingID);
+    unitsInBuilding = units.length;
+    return units;
+  }
+
+  Future<void> createUnit(int bID, String uName, double rent) async {
+    // debugPrint(rent.toString());
+    await DatabaseHelpers.createUnit(bID, uName, rent);
+    await getNumberOfUnits(bID);
+    await getNumberOfBuildings();
+    notifyListeners();
+  }
 }

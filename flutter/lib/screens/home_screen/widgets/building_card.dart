@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:rent_calculator/routing/router.gr.dart' as auto_router;
-import 'package:rent_calculator/screens/units_screen/units_view.dart';
 
 class BuildingCard extends StatelessWidget {
   final int buildingId;

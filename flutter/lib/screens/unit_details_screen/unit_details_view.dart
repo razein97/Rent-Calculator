@@ -4,6 +4,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 
 class UnitDetailsView extends StatelessWidget {
   final String unitName;
+
   const UnitDetailsView({
     super.key,
     required this.unitName,

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:rent_calculator/screens/units_screen/widgets/unit_card.dart';
+import 'package:rent_calculator/screens/units_screen/widgets/desktop_widgets/unit_card_desktop.dart';
 import 'package:sqlite3/common.dart';
 
-class NotEmptyUnit extends StatefulWidget {
+class NotEmptyUnitDesktop extends StatefulWidget {
   final ResultSet? units;
 
-  const NotEmptyUnit({
+  const NotEmptyUnitDesktop({
     super.key,
     required this.units,
   });
 
   @override
-  State<NotEmptyUnit> createState() => _NotEmptyUnit();
+  State<NotEmptyUnitDesktop> createState() => _NotEmptyUnitDesktop();
 }
 
-class _NotEmptyUnit extends State<NotEmptyUnit> {
+class _NotEmptyUnitDesktop extends State<NotEmptyUnitDesktop> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -25,7 +25,7 @@ class _NotEmptyUnit extends State<NotEmptyUnit> {
             for (var row in widget.units!)
               Padding(
                 padding: const EdgeInsets.all(4.0),
-                child: UnitCard(
+                child: UnitCardDesktop(
                     nameOfUnit: row['unit_name'],
                     rent: row['rent'],
                     rentedStatus: row['rented_status'] == 1 ? true : false,

@@ -5,6 +5,8 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   flutter_platform_alert
   sqlite3_flutter_libs
+  system_theme
+  window_size
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

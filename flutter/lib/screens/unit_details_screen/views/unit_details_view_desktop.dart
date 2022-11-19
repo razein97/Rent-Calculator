@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:rent_calculator/helpers/sizes_helpers.dart';
 import 'package:rent_calculator/screens/unit_details_screen/widgets/app_bar_unit_details.dart';
+import 'package:rent_calculator/screens/unit_details_screen/widgets/desktop_widgets/tenant_details_desktop.dart';
+import 'package:rent_calculator/screens/unit_details_screen/widgets/desktop_widgets/transactions_log_desktop.dart';
 
 class UnitDetailsViewDesktop extends StatelessWidget {
   final String unitName;
-  const UnitDetailsViewDesktop({super.key, required this.unitName});
+  const UnitDetailsViewDesktop({
+    super.key,
+    required this.unitName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +19,13 @@ class UnitDetailsViewDesktop extends StatelessWidget {
         title: unitName,
       ),
 
-      body: Container(),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          TentantDetailsDesktop(),
+          TransactionsLogDesktop(),
+        ],
+      ),
       // body: FutureBuilder(
       //   future: Provider.of<BuildingProvider>(context, listen: true)
       //       .getNumberOfUnits(buildingID),

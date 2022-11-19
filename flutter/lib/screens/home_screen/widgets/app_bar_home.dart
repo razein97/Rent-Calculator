@@ -1,10 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:rent_calculator/helpers/database_helpers.dart';
 import 'package:rent_calculator/providers/building_provider.dart';
 import 'package:rent_calculator/screens/home_screen/widgets/text_input_container.dart';
 
@@ -39,7 +34,6 @@ class _AppBarHomeState extends State<AppBarHome> {
 
   @override
   Widget build(BuildContext context) {
-    bool saving = false;
     return AppBar(
       automaticallyImplyLeading: true,
       title: const Text("Rent Calculator"),

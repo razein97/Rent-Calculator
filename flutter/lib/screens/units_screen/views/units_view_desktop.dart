@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rent_calculator/providers/building_provider.dart';
 import 'package:rent_calculator/screens/units_screen/widgets/app_bar_unit.dart';
-import 'package:rent_calculator/screens/units_screen/widgets/empty_unit.dart';
-import 'package:rent_calculator/screens/units_screen/widgets/not_empty_unit.dart';
+import 'package:rent_calculator/screens/units_screen/widgets/desktop_widgets/empty_unit_desktop.dart';
+import 'package:rent_calculator/screens/units_screen/widgets/desktop_widgets/not_empty_unit_desktop.dart';
 
 class UnitsViewDesktop extends StatelessWidget {
   final int buildingID;
@@ -30,8 +30,8 @@ class UnitsViewDesktop extends StatelessWidget {
                   width: double.infinity,
                   height: double.infinity,
                   child: snapshot.data!.isEmpty
-                      ? const EmptyUnit()
-                      : NotEmptyUnit(
+                      ? const EmptyUnitDesktop()
+                      : NotEmptyUnitDesktop(
                           units: snapshot.data,
                         ),
                 );

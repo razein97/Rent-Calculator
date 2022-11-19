@@ -45,7 +45,14 @@ dependencies:
   flutter_dialogs: ^3.0.0
   responsive_sizer: ^3.1.1
   auto_route: ^5.0.2
-  fluent_ui: ^4.0.0
+  font_awesome_flutter: ^10.2.1
+  google_fonts: ^3.0.1
+  shared_preferences: ^2.0.15
+  system_theme: ^2.0.0
+  window_size:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding
+      path: plugins/window_size
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rent_calculator/providers/appData_provider.dart';
 import 'package:rent_calculator/providers/building_provider.dart';
+import 'package:rent_calculator/providers/theme_provider.dart';
 import 'package:rent_calculator/routing/router.gr.dart';
 
 class App extends StatelessWidget {
@@ -13,6 +13,9 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => BuildingProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ThemeDataProvider(),
         ),
       ],
       child: const MaterialAppWithTheme(),
@@ -30,19 +33,20 @@ class MaterialAppWithTheme extends StatefulWidget {
 class _MaterialAppWithThemeState extends State<MaterialAppWithTheme> {
   final _appRouter = AppRouter();
 
-  //    @override
-  // void initState() {
-  //   Provider.of<ThemeDataProvider>(context, listen: false)
-  //       .getCurrentThemeSystem();
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    Provider.of<ThemeDataProvider>(context, listen: false)
+        .getCurrentThemeSystem();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // final theme = Provider.of<ThemeDataProvider>(context);
+    final theme = Provider.of<ThemeDataProvider>(context);
+
     return MaterialApp.router(
       title: 'Rent Calculator',
-      // theme: theme.getTheme(),
+      theme: theme.getTheme(),
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
       debugShowCheckedModeBanner: false,

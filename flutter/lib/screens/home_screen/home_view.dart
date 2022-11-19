@@ -8,6 +8,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeHelper().init(context);
     return ScreenTypeLayout(
       // breakpoints: ScreenBreakpoints(mobile),
 

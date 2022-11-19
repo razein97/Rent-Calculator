@@ -1,26 +1,21 @@
-import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqlite3/sqlite3.dart';
-import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 
 class DatabaseHelpers {
   //Create database
   static Future<void> createAppDataDb(path) async {
     Database appDataDb = sqlite3.open(path);
     //Create table
-    appDataDb.execute('''
-
-CREATE TABLE IF NOT EXISTS buildings(
+    appDataDb.execute('''CREATE TABLE IF NOT EXISTS buildings(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT,
                     address TEXT,
                     units INT
                     );
 
-
-CREATE TABLE IF NOT EXISTS units(
+        CREATE TABLE IF NOT EXISTS units(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     building_id INT,
                     unit_name TEXT,

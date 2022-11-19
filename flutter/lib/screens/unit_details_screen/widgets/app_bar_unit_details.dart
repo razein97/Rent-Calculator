@@ -13,8 +13,11 @@ class AppBarUnitDetails extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: true,
+      elevation: 0,
       automaticallyImplyLeading: true,
       title: Text(title),
+      actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.edit))],
     );
   }
 }

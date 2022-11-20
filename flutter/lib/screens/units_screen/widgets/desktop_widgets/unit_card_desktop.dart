@@ -2,11 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rent_calculator/routing/router.gr.dart' as auto_router;
-import 'package:rent_calculator/screens/units_screen/widgets/desktop_widgets/available_dialog_desktop.dart';
+import 'package:rent_calculator/screens/units_screen/widgets/desktop_widgets/available_dialog_widget_desktop.dart';
+import 'package:rent_calculator/screens/units_screen/widgets/desktop_widgets/edit_rent_widget_desktop.dart';
 
 class UnitCardDesktop extends StatelessWidget {
+  final int buildingID;
   final String nameOfUnit;
   final bool rentedStatus;
+  final int unitID;
   final double rent;
   final double width;
   final double height;
@@ -16,7 +19,9 @@ class UnitCardDesktop extends StatelessWidget {
       required this.width,
       required this.height,
       required this.rentedStatus,
-      required this.rent});
+      required this.rent,
+      required this.buildingID,
+      required this.unitID});
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +35,15 @@ class UnitCardDesktop extends StatelessWidget {
       onPressed: () {
         rentedStatus
             ? AutoRouter.of(context)
-                .push(auto_router.UnitDetailsView(unitName: nameOfUnit))
+                .push(auto_router.UnitDetailsScreen(unitName: nameOfUnit))
             : showDialog(
                 context: context,
-                builder: (BuildContext context) =>
-                    const AvailableDialogDesktop());
+                builder: (BuildContext context) => AvailableDialogWidgetDesktop(
+                      buildingID: buildingID,
+                      unitID: unitID,
+                      unitName: nameOfUnit,
+                      unitRent: rent,
+                    ));
       },
       child: SizedBox(
         // color: Colors.blue.shade400,
@@ -66,7 +75,15 @@ class UnitCardDesktop extends StatelessWidget {
                           side: BorderSide(
                               color: Color.fromRGBO(66, 66, 68, 1), width: 0.2),
                           borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                      onPressed: () {},
+                      onPressed: () => showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              EditRentWidgetDesktop(
+                                rent: rent,
+                                unitName: nameOfUnit,
+                                buildingID: buildingID,
+                                unitID: unitID,
+                              )),
                       child: const FaIcon(FontAwesomeIcons.ellipsis),
                     ),
                   ),
@@ -74,7 +91,7 @@ class UnitCardDesktop extends StatelessWidget {
               ),
             ),
             Text(nameOfUnit),
-            Text(rent.toString()),
+            Text('Rent: $rent'),
             Container(
                 decoration: BoxDecoration(
                   border: Border.all(

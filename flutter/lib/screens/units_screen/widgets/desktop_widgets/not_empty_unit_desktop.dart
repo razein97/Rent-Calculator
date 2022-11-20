@@ -26,7 +26,9 @@ class _NotEmptyUnitDesktop extends State<NotEmptyUnitDesktop> {
               Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: UnitCardDesktop(
+                    buildingID: row['building_id'],
                     nameOfUnit: row['unit_name'],
+                    unitID: row['id'],
                     rent: row['rent'],
                     rentedStatus: row['rented_status'] == 1 ? true : false,
                     width: 300,

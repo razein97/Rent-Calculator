@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:rent_calculator/helpers/database_helpers.dart';
 import 'package:rent_calculator/providers/building_provider.dart';
-import 'package:rent_calculator/screens/home_screen/widgets/text_input_container.dart';
+import 'package:rent_calculator/widgets/text_input_container.dart';
 
 class AppBarUnits extends StatefulWidget with PreferredSizeWidget {
   @override

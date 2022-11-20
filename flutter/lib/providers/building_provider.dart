@@ -29,4 +29,10 @@ class BuildingProvider extends ChangeNotifier {
     await getNumberOfBuildings();
     notifyListeners();
   }
+
+  Future<void> updateUnitRent(int bID, int uID, double rent) async {
+    await DatabaseHelpers.updateUnitRent(bID, uID, rent);
+    await getNumberOfUnits(bID);
+    notifyListeners();
+  }
 }

@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:rent_calculator/screens/unit_details_screen/unit_details_view.dart';
-import 'package:rent_calculator/screens/units_screen/units_view.dart';
-import 'package:rent_calculator/screens/home_screen/home_view.dart';
+import 'package:rent_calculator/screens/add_tenant_screen/add_tenant_screen.dart';
+import 'package:rent_calculator/screens/buildings_screen/buildings_screen.dart';
+import 'package:rent_calculator/screens/unit_details_screen/unit_details_screen.dart';
+import 'package:rent_calculator/screens/units_screen/units_screen.dart';
 import 'package:rent_calculator/start_screen.dart';
 
 // class AppRouter {
@@ -23,8 +24,11 @@ import 'package:rent_calculator/start_screen.dart';
 
 @MaterialAutoRouter(replaceInRouteName: 'Page,Route', routes: <AutoRoute>[
   MaterialRoute(page: StartScreen, initial: true),
-  MaterialRoute(page: HomeView),
-  MaterialRoute(page: UnitsView),
-  MaterialRoute(page: UnitDetailsView),
+  MaterialRoute(page: BuildingsScreen),
+  MaterialRoute(page: UnitsScreen),
+  MaterialRoute(page: UnitDetailsScreen),
+  CustomRoute(
+      page: AddTenantScreen,
+      transitionsBuilder: TransitionsBuilders.slideBottom),
 ])
 class $AppRouter {}

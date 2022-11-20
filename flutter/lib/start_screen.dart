@@ -23,8 +23,8 @@ class _StartScreenState extends State<StartScreen> {
     _databaseStuff().whenComplete(() =>
         Provider.of<BuildingProvider>(context, listen: false)
             .getNumberOfBuildings()
-            .whenComplete(() =>
-                AutoRouter.of(context).replace(const auto_router.HomeView())));
+            .whenComplete(() => AutoRouter.of(context)
+                .replace(const auto_router.BuildingsScreen())));
   }
 
   Future<void> _databaseStuff() async {

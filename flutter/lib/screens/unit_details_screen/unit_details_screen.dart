@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:rent_calculator/screens/unit_details_screen/views/unit_details_view_desktop.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-class UnitDetailsView extends StatelessWidget {
+class UnitDetailsScreen extends StatelessWidget {
   final String unitName;
 
-  const UnitDetailsView({
+  const UnitDetailsScreen({
     super.key,
     required this.unitName,
   });

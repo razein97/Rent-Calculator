@@ -8,7 +8,8 @@ class DatabaseHelpers {
   static Future<void> createAppDataDb(path) async {
     Database appDataDb = sqlite3.open(path);
     //Create table
-    appDataDb.execute('''CREATE TABLE IF NOT EXISTS buildings(
+    appDataDb.execute(
+        '''CREATE TABLE IF NOT EXISTS buildings(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT,
                     address TEXT,
@@ -112,7 +113,6 @@ class DatabaseHelpers {
 
   //Create a unit
   static Future<void> createUnit(int bID, String uName, double uRent) async {
-    debugPrint(uRent.toString());
     final Directory appDocumentsDirectory =
         await getApplicationDocumentsDirectory();
     String path = '${appDocumentsDirectory.path}/RentCalculator/appData.db';
@@ -127,6 +127,32 @@ class DatabaseHelpers {
           uRent,
           false,
         ]);
+
+    //update the buildings number of units
+    ResultSet curUnits =
+        appDataDb.select('SELECT units FROM buildings WHERE id = ?', [bID]);
+
+    appDataDb.execute('UPDATE buildings SET units = ? WHERE id = ?', [
+      curUnits.first['units'] + 1,
+      bID,
+    ]);
+
+    appDataDb.dispose();
+  }
+
+  static Future<void> updateUnitRent(int bID, int uID, double uRent) async {
+    final Directory appDocumentsDirectory =
+        await getApplicationDocumentsDirectory();
+    String path = '${appDocumentsDirectory.path}/RentCalculator/appData.db';
+
+    Database appDataDb = sqlite3.open(path);
+
+    appDataDb
+        .execute('UPDATE units SET rent = ? WHERE id = ? AND building_id = ?', [
+      uRent,
+      uID,
+      bID,
+    ]);
 
     //update the buildings number of units
     ResultSet curUnits =

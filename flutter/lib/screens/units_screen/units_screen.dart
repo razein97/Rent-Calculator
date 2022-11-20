@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:rent_calculator/screens/units_screen/views/units_view_desktop.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-class UnitsView extends StatelessWidget {
+class UnitsScreen extends StatelessWidget {
   final int buildingID;
   final String buildingName;
-  const UnitsView(
+  const UnitsScreen(
       {super.key, required this.buildingID, required this.buildingName});
 
   @override

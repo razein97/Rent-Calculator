@@ -11,79 +11,100 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i5;
-import 'package:flutter/material.dart' as _i6;
+import 'package:auto_route/auto_route.dart' as _i6;
+import 'package:flutter/material.dart' as _i7;
 
-import '../screens/home_screen/home_view.dart' as _i2;
-import '../screens/unit_details_screen/unit_details_view.dart' as _i4;
-import '../screens/units_screen/units_view.dart' as _i3;
+import '../screens/add_tenant_screen/add_tenant_screen.dart' as _i5;
+import '../screens/buildings_screen/buildings_screen.dart' as _i2;
+import '../screens/unit_details_screen/unit_details_screen.dart' as _i4;
+import '../screens/units_screen/units_screen.dart' as _i3;
 import '../start_screen.dart' as _i1;
 
-class AppRouter extends _i5.RootStackRouter {
-  AppRouter([_i6.GlobalKey<_i6.NavigatorState>? navigatorKey])
+class AppRouter extends _i6.RootStackRouter {
+  AppRouter([_i7.GlobalKey<_i7.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
-  final Map<String, _i5.PageFactory> pagesMap = {
+  final Map<String, _i6.PageFactory> pagesMap = {
     StartScreen.name: (routeData) {
-      return _i5.MaterialPageX<dynamic>(
+      return _i6.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i1.StartScreen(),
       );
     },
-    HomeView.name: (routeData) {
-      return _i5.MaterialPageX<dynamic>(
+    BuildingsScreen.name: (routeData) {
+      return _i6.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i2.HomeView(),
+        child: const _i2.BuildingsScreen(),
       );
     },
-    UnitsView.name: (routeData) {
-      final args = routeData.argsAs<UnitsViewArgs>();
-      return _i5.MaterialPageX<dynamic>(
+    UnitsScreen.name: (routeData) {
+      final args = routeData.argsAs<UnitsScreenArgs>();
+      return _i6.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: _i3.UnitsView(
+        child: _i3.UnitsScreen(
           key: args.key,
           buildingID: args.buildingID,
           buildingName: args.buildingName,
         ),
       );
     },
-    UnitDetailsView.name: (routeData) {
-      final args = routeData.argsAs<UnitDetailsViewArgs>();
-      return _i5.MaterialPageX<dynamic>(
+    UnitDetailsScreen.name: (routeData) {
+      final args = routeData.argsAs<UnitDetailsScreenArgs>();
+      return _i6.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: _i4.UnitDetailsView(
+        child: _i4.UnitDetailsScreen(
           key: args.key,
           unitName: args.unitName,
         ),
       );
     },
+    AddTenantScreen.name: (routeData) {
+      final args = routeData.argsAs<AddTenantScreenArgs>();
+      return _i6.CustomPage<dynamic>(
+        routeData: routeData,
+        child: _i5.AddTenantScreen(
+          key: args.key,
+          buildingID: args.buildingID,
+          unitID: args.unitID,
+          unitName: args.unitName,
+          unitRent: args.unitRent,
+        ),
+        transitionsBuilder: _i6.TransitionsBuilders.slideBottom,
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
   };
 
   @override
-  List<_i5.RouteConfig> get routes => [
-        _i5.RouteConfig(
+  List<_i6.RouteConfig> get routes => [
+        _i6.RouteConfig(
           StartScreen.name,
           path: '/',
         ),
-        _i5.RouteConfig(
-          HomeView.name,
-          path: '/home-view',
+        _i6.RouteConfig(
+          BuildingsScreen.name,
+          path: '/buildings-screen',
         ),
-        _i5.RouteConfig(
-          UnitsView.name,
-          path: '/units-view',
+        _i6.RouteConfig(
+          UnitsScreen.name,
+          path: '/units-screen',
         ),
-        _i5.RouteConfig(
-          UnitDetailsView.name,
-          path: '/unit-details-view',
+        _i6.RouteConfig(
+          UnitDetailsScreen.name,
+          path: '/unit-details-screen',
+        ),
+        _i6.RouteConfig(
+          AddTenantScreen.name,
+          path: '/add-tenant-screen',
         ),
       ];
 }
 
 /// generated route for
 /// [_i1.StartScreen]
-class StartScreen extends _i5.PageRouteInfo<void> {
+class StartScreen extends _i6.PageRouteInfo<void> {
   const StartScreen()
       : super(
           StartScreen.name,
@@ -94,45 +115,45 @@ class StartScreen extends _i5.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.HomeView]
-class HomeView extends _i5.PageRouteInfo<void> {
-  const HomeView()
+/// [_i2.BuildingsScreen]
+class BuildingsScreen extends _i6.PageRouteInfo<void> {
+  const BuildingsScreen()
       : super(
-          HomeView.name,
-          path: '/home-view',
+          BuildingsScreen.name,
+          path: '/buildings-screen',
         );
 
-  static const String name = 'HomeView';
+  static const String name = 'BuildingsScreen';
 }
 
 /// generated route for
-/// [_i3.UnitsView]
-class UnitsView extends _i5.PageRouteInfo<UnitsViewArgs> {
-  UnitsView({
-    _i6.Key? key,
+/// [_i3.UnitsScreen]
+class UnitsScreen extends _i6.PageRouteInfo<UnitsScreenArgs> {
+  UnitsScreen({
+    _i7.Key? key,
     required int buildingID,
     required String buildingName,
   }) : super(
-          UnitsView.name,
-          path: '/units-view',
-          args: UnitsViewArgs(
+          UnitsScreen.name,
+          path: '/units-screen',
+          args: UnitsScreenArgs(
             key: key,
             buildingID: buildingID,
             buildingName: buildingName,
           ),
         );
 
-  static const String name = 'UnitsView';
+  static const String name = 'UnitsScreen';
 }
 
-class UnitsViewArgs {
-  const UnitsViewArgs({
+class UnitsScreenArgs {
+  const UnitsScreenArgs({
     this.key,
     required this.buildingID,
     required this.buildingName,
   });
 
-  final _i6.Key? key;
+  final _i7.Key? key;
 
   final int buildingID;
 
@@ -140,40 +161,89 @@ class UnitsViewArgs {
 
   @override
   String toString() {
-    return 'UnitsViewArgs{key: $key, buildingID: $buildingID, buildingName: $buildingName}';
+    return 'UnitsScreenArgs{key: $key, buildingID: $buildingID, buildingName: $buildingName}';
   }
 }
 
 /// generated route for
-/// [_i4.UnitDetailsView]
-class UnitDetailsView extends _i5.PageRouteInfo<UnitDetailsViewArgs> {
-  UnitDetailsView({
-    _i6.Key? key,
+/// [_i4.UnitDetailsScreen]
+class UnitDetailsScreen extends _i6.PageRouteInfo<UnitDetailsScreenArgs> {
+  UnitDetailsScreen({
+    _i7.Key? key,
     required String unitName,
   }) : super(
-          UnitDetailsView.name,
-          path: '/unit-details-view',
-          args: UnitDetailsViewArgs(
+          UnitDetailsScreen.name,
+          path: '/unit-details-screen',
+          args: UnitDetailsScreenArgs(
             key: key,
             unitName: unitName,
           ),
         );
 
-  static const String name = 'UnitDetailsView';
+  static const String name = 'UnitDetailsScreen';
 }
 
-class UnitDetailsViewArgs {
-  const UnitDetailsViewArgs({
+class UnitDetailsScreenArgs {
+  const UnitDetailsScreenArgs({
     this.key,
     required this.unitName,
   });
 
-  final _i6.Key? key;
+  final _i7.Key? key;
 
   final String unitName;
 
   @override
   String toString() {
-    return 'UnitDetailsViewArgs{key: $key, unitName: $unitName}';
+    return 'UnitDetailsScreenArgs{key: $key, unitName: $unitName}';
+  }
+}
+
+/// generated route for
+/// [_i5.AddTenantScreen]
+class AddTenantScreen extends _i6.PageRouteInfo<AddTenantScreenArgs> {
+  AddTenantScreen({
+    _i7.Key? key,
+    required int buildingID,
+    required int unitID,
+    required String unitName,
+    required double unitRent,
+  }) : super(
+          AddTenantScreen.name,
+          path: '/add-tenant-screen',
+          args: AddTenantScreenArgs(
+            key: key,
+            buildingID: buildingID,
+            unitID: unitID,
+            unitName: unitName,
+            unitRent: unitRent,
+          ),
+        );
+
+  static const String name = 'AddTenantScreen';
+}
+
+class AddTenantScreenArgs {
+  const AddTenantScreenArgs({
+    this.key,
+    required this.buildingID,
+    required this.unitID,
+    required this.unitName,
+    required this.unitRent,
+  });
+
+  final _i7.Key? key;
+
+  final int buildingID;
+
+  final int unitID;
+
+  final String unitName;
+
+  final double unitRent;
+
+  @override
+  String toString() {
+    return 'AddTenantScreenArgs{key: $key, buildingID: $buildingID, unitID: $unitID, unitName: $unitName, unitRent: $unitRent}';
   }
 }

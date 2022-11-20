@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rent_calculator/providers/building_provider.dart';
-import 'package:rent_calculator/screens/home_screen/widgets/building_card.dart';
+import 'package:rent_calculator/screens/buildings_screen/widgets/building_card.dart';
 
 class NotEmptyHome extends StatefulWidget {
   const NotEmptyHome({

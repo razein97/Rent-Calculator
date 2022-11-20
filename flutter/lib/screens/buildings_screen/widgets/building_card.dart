@@ -22,7 +22,7 @@ class BuildingCard extends StatelessWidget {
       fillColor: Colors.blue,
       hoverColor: Colors.blue.shade600,
       onPressed: () {
-        AutoRouter.of(context).push(auto_router.UnitsView(
+        AutoRouter.of(context).push(auto_router.UnitsScreen(
             buildingID: buildingId, buildingName: nameOfBuilding));
       },
       child: SizedBox(

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:rent_calculator/routing/router.gr.dart' as auto_router;
 
 class AvailableDialogWidgetDesktop extends StatelessWidget {
@@ -47,8 +48,8 @@ class AvailableDialogWidgetDesktop extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: const [
-                FaIcon(
-                  FontAwesomeIcons.userPlus,
+                Icon(
+                  BoxIcons.bx_user_plus,
                   size: 15.0,
                 ),
                 Text('Add Tenant'),
@@ -64,8 +65,8 @@ class AvailableDialogWidgetDesktop extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: const [
-                FaIcon(
-                  FontAwesomeIcons.eye,
+                Icon(
+                  FontAwesome.eye,
                   size: 15,
                 ),
                 Text('View Unit History'),
@@ -85,12 +86,11 @@ class AvailableDialogWidgetDesktop extends StatelessWidget {
           ),
           Column(
             children: [
-              Image.asset(
-                'assets/images/not_found.webp',
+              SvgPicture.asset(
+                'assets/images/no_data_cuate.svg',
                 width: 500,
                 height: 300,
-                fit: BoxFit.cover,
-                isAntiAlias: true,
+                // fit: BoxFit.cover,
               ),
               const Text('Image by storyset on Freepik.com',
                   textAlign: TextAlign.right,

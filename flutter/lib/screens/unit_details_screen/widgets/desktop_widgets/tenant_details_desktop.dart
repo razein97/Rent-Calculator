@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:rent_calculator/helpers/sizes_helpers.dart';
 
 class TentantDetailsDesktop extends StatelessWidget {
@@ -10,7 +7,7 @@ class TentantDetailsDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         width: SizeHelper.displayWidth! * 1,
         height: SizeHelper.displayHeight! * 0.4,
         child: Row(
@@ -28,12 +25,12 @@ class TentantDetailsDesktop extends StatelessWidget {
                       children: [
                         Card(
                           child: ListTile(
-                            leading: FaIcon(FontAwesomeIcons.circleUser),
-                            title: Text("Rohit Singh"),
-                            subtitle: Text('Phone Number: '),
+                            leading: const Icon(BoxIcons.bx_user_circle),
+                            title: const Text("Rohit Singh"),
+                            subtitle: const Text('Phone Number: '),
                             trailing: IconButton(
                                 onPressed: () {},
-                                icon: FaIcon(FontAwesomeIcons.penToSquare)),
+                                icon: const Icon(BoxIcons.bx_edit)),
                           ),
                         )
                       ],
@@ -45,10 +42,10 @@ class TentantDetailsDesktop extends StatelessWidget {
                 color: Colors.red,
                 width: SizeHelper.displayWidth! * 0.4,
                 height: SizeHelper.displayHeight,
-                child: Column(children: [
-                  const Text('Status'),
+                child: Column(children: const [
+                  Text('Status'),
                   Text('Amenities'),
-                  const Text('Due: ')
+                  Text('Due: ')
                 ]),
               )
             ]));

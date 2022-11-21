@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:rent_calculator/routing/router.gr.dart' as auto_router;
 import 'package:rent_calculator/screens/units_screen/widgets/desktop_widgets/available_dialog_widget_desktop.dart';
 import 'package:rent_calculator/screens/units_screen/widgets/desktop_widgets/edit_rent_widget_desktop.dart';
@@ -61,10 +61,10 @@ class UnitCardDesktop extends StatelessWidget {
                 children: [
                   RawMaterialButton(
                     onPressed: null,
-                    child: FaIcon(
+                    child: Icon(
                       rentedStatus
-                          ? FontAwesomeIcons.houseChimneyUser
-                          : FontAwesomeIcons.houseChimneyWindow,
+                          ? FontAwesome.house_chimney
+                          : FontAwesome.house_chimney_user,
                       color: Colors.blue,
                     ),
                   ),
@@ -84,7 +84,7 @@ class UnitCardDesktop extends StatelessWidget {
                                 buildingID: buildingID,
                                 unitID: unitID,
                               )),
-                      child: const FaIcon(FontAwesomeIcons.ellipsis),
+                      child: const Icon(BoxIcons.bx_dots_vertical_rounded),
                     ),
                   ),
                 ],

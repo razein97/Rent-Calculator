@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:rent_calculator/helpers/sizes_helpers.dart';
 
 class TransactionsLogDesktop extends StatelessWidget {
@@ -9,17 +7,17 @@ class TransactionsLogDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: SizeHelper.displayWidth! * 1,
       height: SizeHelper.displayHeight! * 0.5,
       child: Table(
           // border: TableBorder.all(width: 1.0),
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          columnWidths: {},
+          columnWidths: const {},
           children: <TableRow>[
             TableRow(
               decoration: BoxDecoration(color: Colors.grey[200]),
-              children: [
+              children: const [
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(child: Text('Previous Reading in KWH')),
@@ -64,53 +62,53 @@ class TransactionsLogDesktop extends StatelessWidget {
             ),
             TableRow(
               children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(child: Text('41497')),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(child: Text('41449')),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(child: Text('48')),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(child: Text('432')),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(child: Text('40')),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(child: Text('472')),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(child: Text('Pending')),
                 ), // Status options = Pending, Paid, Overdue
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(child: Text('15-10-2022')),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Center(
                     child: ElevatedButton(
                       onPressed: () {},
-                      child: Text('View Bill'),
+                      child: const Text('View Bill'),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Center(
                       child: IconButton(
                     onPressed: () {},
-                    icon: FaIcon(FontAwesomeIcons.penToSquare),
+                    icon: const Icon(BoxIcons.bx_edit),
                   )),
                 ),
               ],

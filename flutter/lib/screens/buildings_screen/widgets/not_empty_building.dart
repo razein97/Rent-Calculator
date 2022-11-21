@@ -3,16 +3,16 @@ import 'package:provider/provider.dart';
 import 'package:rent_calculator/providers/building_provider.dart';
 import 'package:rent_calculator/screens/buildings_screen/widgets/building_card.dart';
 
-class NotEmptyHome extends StatefulWidget {
-  const NotEmptyHome({
+class NotEmptyBuildings extends StatefulWidget {
+  const NotEmptyBuildings({
     super.key,
   });
 
   @override
-  State<NotEmptyHome> createState() => _NotEmptyHomeState();
+  State<NotEmptyBuildings> createState() => _NotEmptyBuildingsState();
 }
 
-class _NotEmptyHomeState extends State<NotEmptyHome> {
+class _NotEmptyBuildingsState extends State<NotEmptyBuildings> {
   @override
   void initState() {
     // TODO: implement initState

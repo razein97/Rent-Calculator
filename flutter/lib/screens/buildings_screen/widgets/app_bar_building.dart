@@ -3,18 +3,18 @@ import 'package:provider/provider.dart';
 import 'package:rent_calculator/providers/building_provider.dart';
 import 'package:rent_calculator/widgets/text_input_container.dart';
 
-class AppBarHome extends StatefulWidget with PreferredSizeWidget {
+class AppBarBuildings extends StatefulWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
   final String title;
-  const AppBarHome(
+  const AppBarBuildings(
       {super.key, required this.preferredSize, required this.title});
 
   @override
-  State<AppBarHome> createState() => _AppBarHomeState();
+  State<AppBarBuildings> createState() => _AppBarBuildingsState();
 }
 
-class _AppBarHomeState extends State<AppBarHome> {
+class _AppBarBuildingsState extends State<AppBarBuildings> {
   final _formKey = GlobalKey<FormState>();
 
   final _scrollController = ScrollController();

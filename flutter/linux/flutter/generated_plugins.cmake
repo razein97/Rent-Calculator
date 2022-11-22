@@ -3,8 +3,10 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  file_saver
   flutter_platform_alert
   sqlite3_flutter_libs
+  url_launcher_linux
   window_size
 )
 

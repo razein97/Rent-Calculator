@@ -2,10 +2,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:rent_calculator/helpers/sizes_helpers.dart';
 import 'package:rent_calculator/screens/add_tenant_screen/widgets/add_tenant_info.dart';
 import 'package:rent_calculator/screens/add_tenant_screen/widgets/app_bar_add_new_tenant.dart';
+import 'package:rent_calculator/screens/add_tenant_screen/widgets/enlarged_view.dart';
 
 class AddTenantViewDesktop extends StatefulWidget {
   final int buildingID;
@@ -28,6 +30,7 @@ class _AddTenantViewDesktopState extends State<AddTenantViewDesktop> {
   final _formKeyTenantView = GlobalKey<FormBuilderState>();
 
   List<TenantInfo> tenantDetails = [];
+  int profilePhotoIndex = 0;
 
   @override
   void dispose() {
@@ -180,63 +183,290 @@ class _AddTenantViewDesktopState extends State<AddTenantViewDesktop> {
                                   ? Column(
                                       children: [
                                         for (TenantInfo info in tenantDetails)
-                                          Card(
-                                            color: Colors.blueGrey,
-                                            child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  info.profilePhotos!.isNotEmpty
-                                                      ? Image.memory(
-                                                          width: 100,
-                                                          height: 100,
-                                                          info.profilePhotos!
-                                                              .first.bytes!)
-                                                      : Container(
-                                                          decoration: BoxDecoration(
-                                                              border: Border.all(
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .disabledColor,
-                                                                  width: 2)),
-                                                          width: 100,
-                                                          height: 100,
-                                                          child: const Icon(
-                                                            FontAwesome.user,
-                                                            size: 50,
-                                                          )),
-                                                  Container(
-                                                    color: Colors.pink,
-                                                    width: 600,
-                                                    height: 200,
-                                                    child: Column(children: [
-                                                      SizedBox(
-                                                        width: 600,
-                                                        child: Text(
-                                                            'Name: ${info.firstName} ${info.lastName == null ? info.lastName : ''}'),
-                                                      ),
-                                                      SizedBox(
+                                          Column(
+                                            children: [
+                                              Card(
+                                                // elevation: 10,
+                                                shadowColor: Theme.of(context)
+                                                    .dividerColor,
+                                                // color: Colors.blueGrey,
+                                                child: Stack(
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      children: [
+                                                        info.profilePhotos!
+                                                                .isNotEmpty
+                                                            ? info.profilePhotos!
+                                                                        .length >
+                                                                    1
+                                                                ? SizedBox(
+                                                                    width: 200,
+                                                                    height: 150,
+                                                                    child:
+                                                                        Column(
+                                                                      children: [
+                                                                        Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.center,
+                                                                          children: [
+                                                                            SizedBox(
+                                                                              height: 100,
+                                                                              width: 20,
+                                                                              child: RawMaterialButton(
+                                                                                  onPressed: () {
+                                                                                    if (profilePhotoIndex != 0) {
+                                                                                      profilePhotoIndex -= 1;
+                                                                                    }
+                                                                                    setState(() {});
+                                                                                  },
+                                                                                  child: const Icon(
+                                                                                    BoxIcons.bx_chevron_left,
+                                                                                  )),
+                                                                            ),
+                                                                            Image.memory(
+                                                                                width: 100,
+                                                                                height: 100,
+                                                                                info.profilePhotos![profilePhotoIndex].bytes!),
+                                                                            SizedBox(
+                                                                              height: 100,
+                                                                              width: 20,
+                                                                              child: RawMaterialButton(
+                                                                                  onPressed: () {
+                                                                                    if (info.profilePhotos!.length - 1 != profilePhotoIndex) {
+                                                                                      profilePhotoIndex += 1;
+                                                                                    }
+                                                                                    setState(() {});
+                                                                                  },
+                                                                                  child: const Icon(BoxIcons.bx_chevron_right)),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        SizedBox(
+                                                                          width:
+                                                                              140,
+                                                                          height:
+                                                                              25,
+                                                                          child: RawMaterialButton(
+                                                                              fillColor: Theme.of(context).disabledColor,
+                                                                              onPressed: () {
+                                                                                showDialog(
+                                                                                    context: context,
+                                                                                    builder: ((context) => EnlargedView(
+                                                                                          files: info.profilePhotos!,
+                                                                                          index: profilePhotoIndex,
+                                                                                        )));
+                                                                              },
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: const [
+                                                                                  Icon(
+                                                                                    BoxIcons.bx_search,
+                                                                                    size: 15,
+                                                                                  ),
+                                                                                  Text('Enlarge')
+                                                                                ],
+                                                                              )),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  )
+                                                                : Column(
+                                                                    children: [
+                                                                      SizedBox(
+                                                                        width:
+                                                                            200,
+                                                                        height:
+                                                                            100,
+                                                                        child: Image
+                                                                            .memory(
+                                                                          width:
+                                                                              100,
+                                                                          height:
+                                                                              100,
+                                                                          info
+                                                                              .profilePhotos!
+                                                                              .first
+                                                                              .bytes!,
+                                                                          fit: BoxFit
+                                                                              .contain,
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width:
+                                                                            140,
+                                                                        height:
+                                                                            25,
+                                                                        child: RawMaterialButton(
+                                                                            fillColor: Theme.of(context).disabledColor,
+                                                                            onPressed: () {
+                                                                              showDialog(
+                                                                                  context: context,
+                                                                                  builder: ((context) => EnlargedView(
+                                                                                        files: info.profilePhotos!,
+                                                                                        index: profilePhotoIndex,
+                                                                                      )));
+                                                                            },
+                                                                            child: Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              children: const [
+                                                                                Icon(
+                                                                                  BoxIcons.bx_search,
+                                                                                  size: 15,
+                                                                                ),
+                                                                                Text('Enlarge')
+                                                                              ],
+                                                                            )),
+                                                                      )
+                                                                    ],
+                                                                  )
+                                                            : const SizedBox(
+                                                                width: 200,
+                                                                height: 100,
+                                                                child: Icon(
+                                                                  FontAwesome
+                                                                      .user,
+                                                                  size: 50,
+                                                                ),
+                                                              ),
+                                                        Container(
+                                                          // color: Colors.pink,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
                                                           width: 600,
-                                                          child: Text(
-                                                              'Address: ${info.streetAddressLine1 != 'null' ? info.streetAddressLine1 : ''}${info.streetAddressLine2 != 'null' ? ', ' : ''}${info.streetAddressLine2 != 'null' ? info.streetAddressLine2 : ''}${info.city != 'null' ? ', ' : ''}${info.city != 'null' ? info.city : ''}${info.state != 'null' ? ', ' : ''}${info.state != 'null' ? info.state : ''}${info.pincode != 'null' ? ', ' : ''}${info.pincode != 'null' ? info.pincode : ''}')),
-                                                      SizedBox(
-                                                        width: 600,
-                                                        child: Text(
-                                                            'Phone (Home): ${info.phoneHome != 'null' ? info.phoneHome : 'N/A'}'),
+                                                          child: Table(
+                                                            columnWidths: const {
+                                                              0: FlexColumnWidth(
+                                                                  0.4),
+                                                            },
+                                                            // border: TableBorder.all(
+                                                            //     width: 1),
+                                                            children: <
+                                                                TableRow>[
+                                                              TableRow(
+                                                                children: [
+                                                                  const Text(
+                                                                      'Name:'),
+                                                                  Text(
+                                                                      '${info.firstName} ${info.lastName != 'null' ? info.lastName : ''}'),
+                                                                ],
+                                                              ),
+                                                              TableRow(
+                                                                children: [
+                                                                  const Text(
+                                                                      'Address:'),
+                                                                  Text(
+                                                                      '${info.streetAddressLine1 != 'null' ? info.streetAddressLine1 : ''}${info.streetAddressLine2 != 'null' ? ', ' : ''}${info.streetAddressLine2 != 'null' ? info.streetAddressLine2 : ''}${info.city != 'null' ? ', ' : ''}${info.city != 'null' ? info.city : ''}${info.state != 'null' ? ', ' : ''}${info.state != 'null' ? info.state : ''}${info.pincode != 'null' ? ', ' : ''}${info.pincode != 'null' ? info.pincode : ''}'),
+                                                                ],
+                                                              ),
+                                                              TableRow(
+                                                                children: [
+                                                                  const Text(
+                                                                      'Phone (Home):'),
+                                                                  Text(
+                                                                      '${info.phoneHome != 'null' ? info.phoneHome : 'N/A'}'),
+                                                                ],
+                                                              ),
+                                                              TableRow(
+                                                                children: [
+                                                                  const Text(
+                                                                      'Phone (Work):'),
+                                                                  Text(
+                                                                      '${info.phoneWork != 'null' ? info.phoneWork : 'N/A'}'),
+                                                                ],
+                                                              ),
+                                                              TableRow(
+                                                                children: [
+                                                                  const Text(
+                                                                    'Phone (Emergency):',
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  ),
+                                                                  Text(
+                                                                      '${info.phoneEmergency != 'null' ? info.phoneEmergency : 'N/A'}'),
+                                                                ],
+                                                              ),
+                                                              TableRow(
+                                                                children: [
+                                                                  const Text(
+                                                                      'Email:'),
+                                                                  Text(
+                                                                      '${info.email != 'null' ? info.email : 'N/A'}'),
+                                                                ],
+                                                              ),
+                                                              TableRow(
+                                                                children: [
+                                                                  const Text(
+                                                                      ''),
+                                                                  info.tenantDocs!
+                                                                          .isNotEmpty
+                                                                      ? RawMaterialButton(
+                                                                          fillColor:
+                                                                              Theme.of(context).disabledColor,
+                                                                          onPressed:
+                                                                              () {
+                                                                            showDialog(
+                                                                                context: context,
+                                                                                builder: ((context) => EnlargedView(
+                                                                                      files: info.tenantDocs!,
+                                                                                      index: 0,
+                                                                                    )));
+                                                                          },
+                                                                          child:
+                                                                              Row(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.center,
+                                                                            children: const [
+                                                                              Icon(
+                                                                                BoxIcons.bx_file,
+                                                                                size: 15,
+                                                                              ),
+                                                                              Text('View documents')
+                                                                            ],
+                                                                          ),
+                                                                        )
+                                                                      : const Text(
+                                                                          ''),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Positioned(
+                                                      top: 0,
+                                                      right: 0,
+                                                      child: RawMaterialButton(
+                                                        fillColor:
+                                                            Theme.of(context)
+                                                                .dividerColor,
+                                                        constraints:
+                                                            const BoxConstraints(
+                                                                minWidth: 30,
+                                                                minHeight: 30),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            tenantDetails
+                                                                .remove(info);
+                                                          });
+                                                        },
+                                                        child: const Icon(
+                                                            BoxIcons.bx_x),
                                                       ),
-                                                      SizedBox(
-                                                        width: 600,
-                                                        child: Text(
-                                                            'Phone (Work): ${info.phoneWork != 'null' ? info.phoneWork : 'N/A'}'),
-                                                      ),
-                                                      Text(
-                                                          ' ${info.phoneEmergency}'),
-                                                      Text(' ${info.email}'),
-                                                    ]),
-                                                  )
-                                                ]),
-                                          )
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 10.0,
+                                              )
+                                            ],
+                                          ),
                                       ],
                                     )
                                   : Container(),

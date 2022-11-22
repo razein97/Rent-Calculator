@@ -3,9 +3,12 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  file_saver
   flutter_platform_alert
   sqlite3_flutter_libs
+  syncfusion_pdfviewer_windows
   system_theme
+  url_launcher_windows
   window_size
 )
 

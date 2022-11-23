@@ -4,7 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:rent_calculator/helpers/sizes_helpers.dart';
-import 'package:rent_calculator/screens/add_tenant_screen/views/add_tenant_view_desktop.dart';
+import 'package:rent_calculator/models/tenant_info_model.dart';
 
 class AddTenantInfo extends StatefulWidget {
   final TenantInfo? tenantInfo;
@@ -84,6 +84,9 @@ class _AddTenantInfoState extends State<AddTenantInfo> {
               info.pincode = _formKeyTenantInfo
                   .currentState!.fields['pincode']!.value
                   .toString();
+              info.country = _formKeyTenantInfo
+                  .currentState!.fields['country']!.value
+                  .toString();
               info.phoneHome = _formKeyTenantInfo
                   .currentState!.fields['phone_home']!.value
                   .toString();
@@ -117,7 +120,7 @@ class _AddTenantInfoState extends State<AddTenantInfo> {
               backgroundColor: MaterialStateProperty.all(Colors.red),
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(context, null);
             },
             child: const Text('Cancel'),
           ),
@@ -152,7 +155,8 @@ class _AddTenantInfoState extends State<AddTenantInfo> {
                           width: 250,
                           child: FormBuilderTextField(
                             name: 'first_name',
-                            initialValue: widget.tenantInfo?.firstName,
+                            initialValue: widget.tenantInfo?.firstName ?? '',
+                            textCapitalization: TextCapitalization.sentences,
                             decoration: const InputDecoration(
                               errorBorder: OutlineInputBorder(
                                 borderSide:
@@ -187,7 +191,8 @@ class _AddTenantInfoState extends State<AddTenantInfo> {
                           width: 250,
                           child: FormBuilderTextField(
                             name: 'last_name',
-                            initialValue: widget.tenantInfo?.lastName,
+                            initialValue: widget.tenantInfo?.lastName ?? '',
+                            textCapitalization: TextCapitalization.sentences,
                             decoration: const InputDecoration(
                               errorBorder: OutlineInputBorder(
                                 borderSide:
@@ -221,7 +226,9 @@ class _AddTenantInfoState extends State<AddTenantInfo> {
                       width: 600,
                       child: FormBuilderTextField(
                         name: 'street_address_line_1',
-                        initialValue: widget.tenantInfo?.streetAddressLine1,
+                        initialValue:
+                            widget.tenantInfo?.streetAddressLine1 ?? '',
+                        textCapitalization: TextCapitalization.sentences,
                         decoration: const InputDecoration(
                           errorBorder: OutlineInputBorder(
                             borderSide:
@@ -248,7 +255,9 @@ class _AddTenantInfoState extends State<AddTenantInfo> {
                       width: 600,
                       child: FormBuilderTextField(
                         name: 'street_address_line_2',
-                        initialValue: widget.tenantInfo?.streetAddressLine2,
+                        initialValue:
+                            widget.tenantInfo?.streetAddressLine2 ?? '',
+                        textCapitalization: TextCapitalization.sentences,
                         decoration: const InputDecoration(
                           errorBorder: OutlineInputBorder(
                             borderSide:
@@ -275,10 +284,11 @@ class _AddTenantInfoState extends State<AddTenantInfo> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
-                          width: 150,
+                          width: 250,
                           child: FormBuilderTextField(
                             name: 'city',
-                            initialValue: widget.tenantInfo?.city,
+                            initialValue: widget.tenantInfo?.city ?? '',
+                            textCapitalization: TextCapitalization.sentences,
                             decoration: const InputDecoration(
                               errorBorder: OutlineInputBorder(
                                 borderSide:
@@ -301,10 +311,11 @@ class _AddTenantInfoState extends State<AddTenantInfo> {
                           ),
                         ),
                         SizedBox(
-                          width: 150,
+                          width: 250,
                           child: FormBuilderTextField(
                             name: 'state',
-                            initialValue: widget.tenantInfo?.state,
+                            initialValue: widget.tenantInfo?.state ?? '',
+                            textCapitalization: TextCapitalization.sentences,
                             decoration: const InputDecoration(
                               errorBorder: OutlineInputBorder(
                                 borderSide:
@@ -326,11 +337,18 @@ class _AddTenantInfoState extends State<AddTenantInfo> {
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                    const SizedBox(height: 20.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
                         SizedBox(
-                          width: 150,
+                          width: 250,
                           child: FormBuilderTextField(
                             name: 'pincode',
-                            initialValue: widget.tenantInfo?.pincode,
+                            initialValue: widget.tenantInfo?.pincode ?? '',
+                            textCapitalization: TextCapitalization.sentences,
                             decoration: const InputDecoration(
                               errorBorder: OutlineInputBorder(
                                 borderSide:
@@ -352,6 +370,33 @@ class _AddTenantInfoState extends State<AddTenantInfo> {
                             ),
                           ),
                         ),
+                        SizedBox(
+                          width: 250,
+                          child: FormBuilderTextField(
+                            name: 'country',
+                            initialValue: widget.tenantInfo?.country ?? '',
+                            textCapitalization: TextCapitalization.sentences,
+                            decoration: const InputDecoration(
+                              errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 1.0),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 1.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.blue, width: 1.0),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.blue, width: 1.0),
+                              ),
+                              labelText: 'Country',
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 20.0),
@@ -370,7 +415,8 @@ class _AddTenantInfoState extends State<AddTenantInfo> {
                           width: 250,
                           child: FormBuilderTextField(
                             name: 'phone_home',
-                            initialValue: widget.tenantInfo?.phoneHome,
+                            initialValue: widget.tenantInfo?.phoneHome ?? '',
+                            textCapitalization: TextCapitalization.sentences,
                             decoration: const InputDecoration(
                               focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -394,7 +440,8 @@ class _AddTenantInfoState extends State<AddTenantInfo> {
                           width: 250,
                           child: FormBuilderTextField(
                             name: 'phone_work',
-                            initialValue: widget.tenantInfo?.phoneWork,
+                            initialValue: widget.tenantInfo?.phoneWork ?? '',
+                            textCapitalization: TextCapitalization.sentences,
                             decoration: const InputDecoration(
                               focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -424,7 +471,9 @@ class _AddTenantInfoState extends State<AddTenantInfo> {
                           width: 250,
                           child: FormBuilderTextField(
                             name: 'phone_emergency',
-                            initialValue: widget.tenantInfo?.phoneEmergency,
+                            initialValue:
+                                widget.tenantInfo?.phoneEmergency ?? '',
+                            textCapitalization: TextCapitalization.sentences,
                             decoration: const InputDecoration(
                               focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -448,7 +497,8 @@ class _AddTenantInfoState extends State<AddTenantInfo> {
                           width: 250,
                           child: FormBuilderTextField(
                             name: 'email',
-                            initialValue: widget.tenantInfo?.email,
+                            initialValue: widget.tenantInfo?.email ?? '',
+                            textCapitalization: TextCapitalization.sentences,
                             decoration: const InputDecoration(
                               focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -482,7 +532,8 @@ class _AddTenantInfoState extends State<AddTenantInfo> {
                       child: FormBuilderTextField(
                         maxLines: null,
                         name: 'notes',
-                        initialValue: widget.tenantInfo?.notes,
+                        initialValue: widget.tenantInfo?.notes ?? '',
+                        textCapitalization: TextCapitalization.sentences,
                         decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(
                               borderSide:

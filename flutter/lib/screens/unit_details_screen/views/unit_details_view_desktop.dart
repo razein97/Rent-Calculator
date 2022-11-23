@@ -21,7 +21,7 @@ class UnitDetailsViewDesktop extends StatelessWidget {
 
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
+        children: const [
           TentantDetailsDesktop(),
           TransactionsLogDesktop(),
         ],

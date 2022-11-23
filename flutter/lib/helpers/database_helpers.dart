@@ -1,6 +1,9 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rent_calculator/models/tenant_info_model.dart';
+import 'package:rent_calculator/screens/add_tenant_screen/widgets/tenant_details.dart';
+import 'package:rent_calculator/values/database_sql.dart';
 import 'package:sqlite3/sqlite3.dart';
 
 class DatabaseHelpers {
@@ -8,24 +11,9 @@ class DatabaseHelpers {
   static Future<void> createAppDataDb(path) async {
     Database appDataDb = sqlite3.open(path);
     //Create table
-    appDataDb.execute(
-        '''CREATE TABLE IF NOT EXISTS buildings(
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT,
-                    address TEXT,
-                    units INT
-                    );
-
-        CREATE TABLE IF NOT EXISTS units(
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    building_id INT,
-                    unit_name TEXT,
-                    tenant_info TEXT,
-                    rent REAL,
-                    amenities TEXT,
-                    rented_status BOOL
-                    );
-''');
+    appDataDb.execute(createTableBuildings);
+    appDataDb.execute(createTableUnits);
+    appDataDb.execute(createTableTenantDetails);
 
     appDataDb.dispose();
   }
@@ -165,4 +153,9 @@ class DatabaseHelpers {
 
     appDataDb.dispose();
   }
+}
+
+class DatabaseSaveHelper {
+  static Future<void> saveTenantDetails(int buildingId, int unitId,
+      TenantInfo tenantInfo, int checkInDate, int checkOutDate) async {}
 }

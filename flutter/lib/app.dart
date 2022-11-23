@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rent_calculator/providers/building_provider.dart';
+import 'package:rent_calculator/providers/tenants_provider.dart';
 import 'package:rent_calculator/providers/theme_provider.dart';
 import 'package:rent_calculator/routing/router.gr.dart';
 
@@ -16,6 +17,9 @@ class App extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ThemeDataProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => TenantProvider(),
         ),
       ],
       child: const MaterialAppWithTheme(),

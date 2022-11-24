@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_alt/modal_progress_hud_alt.dart';
@@ -48,7 +49,7 @@ class _AddTenantViewDesktopState extends State<AddTenantViewDesktop> {
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
-      inAsyncCall: saving,
+      inAsyncCall: Provider.of<TenantProvider>(context, listen: true).saving,
       progressIndicator: Container(
         width: 200,
         height: 200,
@@ -78,6 +79,9 @@ class _AddTenantViewDesktopState extends State<AddTenantViewDesktop> {
           preferredSize: const Size(double.infinity, 60),
           unitID: widget.unitID,
           title: widget.unitName,
+          buildingId: widget.buildingID,
+          controller: _formKeyUnitDetails,
+          amenitiesIntList: amenitiesInt,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -116,7 +120,6 @@ class _AddTenantViewDesktopState extends State<AddTenantViewDesktop> {
                                   children: [
                                     SizedBox(
                                       width: 200,
-                                      height: 50.0,
                                       child: FormBuilderTextField(
                                         name: 'unit_rent',
                                         initialValue:
@@ -138,11 +141,14 @@ class _AddTenantViewDesktopState extends State<AddTenantViewDesktop> {
                                                 color: Colors.blue, width: 1.0),
                                           ),
                                         ),
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        validator:
+                                            FormBuilderValidators.required(),
                                       ),
                                     ),
                                     SizedBox(
                                       width: 200,
-                                      height: 50.0,
                                       child: FormBuilderTextField(
                                         name: 'security_deposit',
                                         keyboardType: const TextInputType
@@ -162,11 +168,14 @@ class _AddTenantViewDesktopState extends State<AddTenantViewDesktop> {
                                                 color: Colors.blue, width: 1.0),
                                           ),
                                         ),
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        validator:
+                                            FormBuilderValidators.required(),
                                       ),
                                     ),
                                     SizedBox(
                                       width: 200,
-                                      height: 50.0,
                                       child: FormBuilderTextField(
                                         name: 'current_electricity_unit',
                                         keyboardType: const TextInputType
@@ -186,11 +195,14 @@ class _AddTenantViewDesktopState extends State<AddTenantViewDesktop> {
                                                 color: Colors.blue, width: 1.0),
                                           ),
                                         ),
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        validator:
+                                            FormBuilderValidators.required(),
                                       ),
                                     ),
                                     SizedBox(
                                       width: 200,
-                                      height: 50.0,
                                       child: FormBuilderDateTimePicker(
                                         name: 'check_in_date',
                                         inputType: InputType.date,
@@ -292,6 +304,10 @@ class _AddTenantViewDesktopState extends State<AddTenantViewDesktop> {
                                                       height: 40.0,
                                                       child:
                                                           FormBuilderTextField(
+                                                        valueTransformer:
+                                                            (value) =>
+                                                                double.parse(
+                                                                    value!),
                                                         name:
                                                             'amenity_price_$i',
                                                         keyboardType:

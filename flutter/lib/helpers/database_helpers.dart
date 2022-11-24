@@ -1,8 +1,7 @@
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rent_calculator/helpers/json_file_encoders.dart';
 import 'package:rent_calculator/models/tenant_info_model.dart';
-import 'package:rent_calculator/screens/add_tenant_screen/widgets/tenant_details.dart';
 import 'package:rent_calculator/values/database_sql.dart';
 import 'package:sqlite3/sqlite3.dart';
 
@@ -11,9 +10,11 @@ class DatabaseHelpers {
   static Future<void> createAppDataDb(path) async {
     Database appDataDb = sqlite3.open(path);
     //Create table
-    appDataDb.execute(createTableBuildings);
-    appDataDb.execute(createTableUnits);
-    appDataDb.execute(createTableTenantDetails);
+    appDataDb.execute(createTableBuildingsSQL);
+    appDataDb.execute(createTableUnitsSQL);
+    appDataDb.execute(createTableTenantDetailsSQL);
+    appDataDb.execute(createTransactionsSQL);
+    appDataDb.execute(createRentAmountSQL);
 
     appDataDb.dispose();
   }
@@ -100,7 +101,7 @@ class DatabaseHelpers {
   }
 
   //Create a unit
-  static Future<void> createUnit(int bID, String uName, double uRent) async {
+  static Future<int> createUnit(int bID, String uName, double uRent) async {
     final Directory appDocumentsDirectory =
         await getApplicationDocumentsDirectory();
     String path = '${appDocumentsDirectory.path}/RentCalculator/appData.db';
@@ -116,6 +117,8 @@ class DatabaseHelpers {
           false,
         ]);
 
+    int unitId = appDataDb.lastInsertRowId;
+
     //update the buildings number of units
     ResultSet curUnits =
         appDataDb.select('SELECT units FROM buildings WHERE id = ?', [bID]);
@@ -126,36 +129,104 @@ class DatabaseHelpers {
     ]);
 
     appDataDb.dispose();
+    return unitId;
   }
+}
 
-  static Future<void> updateUnitRent(int bID, int uID, double uRent) async {
+class DatabaseUnitHelpers {
+  static Future<void> updateUnitRent(
+      int bID, int uID, double uRent, int date) async {
     final Directory appDocumentsDirectory =
         await getApplicationDocumentsDirectory();
     String path = '${appDocumentsDirectory.path}/RentCalculator/appData.db';
 
     Database appDataDb = sqlite3.open(path);
 
-    appDataDb
-        .execute('UPDATE units SET rent = ? WHERE id = ? AND building_id = ?', [
-      uRent,
-      uID,
-      bID,
-    ]);
+    appDataDb.execute(
+        'INSERT INTO units_rents (building_id, unit_id, rent_amount, date) VALUES (?,?,?,?)',
+        [bID, uID, uRent, date]);
 
-    //update the buildings number of units
-    ResultSet curUnits =
-        appDataDb.select('SELECT units FROM buildings WHERE id = ?', [bID]);
+    appDataDb.execute('UPDATE units SET rent = ? WHERE id=? AND building_id= ?',
+        [uRent, uID, bID]);
 
-    appDataDb.execute('UPDATE buildings SET units = ? WHERE id = ?', [
-      curUnits.first['units'] + 1,
-      bID,
-    ]);
+    appDataDb.dispose();
+  }
+
+  static Future<double> getUnitRent(int bID, int uID) async {
+    final Directory appDocumentsDirectory =
+        await getApplicationDocumentsDirectory();
+    String path = '${appDocumentsDirectory.path}/RentCalculator/appData.db';
+
+    Database appDataDb = sqlite3.open(path);
+
+    ResultSet resultSet = appDataDb
+        .select('SELECT rent_amount FROM units_rents ORDER BY id DESC LIMIT 1');
+    return resultSet.first['rent_amount'];
+  }
+
+  static Future<void> updateUnitRentedStatus(
+      int bID, int uID, bool rentedStatus) async {
+    final Directory appDocumentsDirectory =
+        await getApplicationDocumentsDirectory();
+    String path = '${appDocumentsDirectory.path}/RentCalculator/appData.db';
+
+    Database appDataDb = sqlite3.open(path);
+
+    appDataDb.execute(
+        'UPDATE units SET rented_status = ? WHERE id = ? AND building_id = ?',
+        [rentedStatus, uID, bID]);
 
     appDataDb.dispose();
   }
 }
 
-class DatabaseSaveHelper {
-  static Future<void> saveTenantDetails(int buildingId, int unitId,
-      TenantInfo tenantInfo, int checkInDate, int checkOutDate) async {}
+class DatabaseTenantsHelper {
+  static Future<void> saveTenantDetails(
+    int buildingId,
+    int unitId,
+    double rent,
+    double securityDeposit,
+    List<TenantInfo> tenantInfos,
+    String amenities,
+    int checkInDate,
+  ) async {
+    final Directory appDocumentsDirectory =
+        await getApplicationDocumentsDirectory();
+    String path = '${appDocumentsDirectory.path}/RentCalculator/appData.db';
+    Database appDataDb = sqlite3.open(path);
+
+    for (TenantInfo tenantInfo in tenantInfos) {
+      String profilePhotosJson =
+          JsonEncoder.jsonEncodeFile(tenantInfo.profilePhotos!);
+      String tenantDocsJson =
+          JsonEncoder.jsonEncodeFile(tenantInfo.tenantDocs!);
+
+      appDataDb.execute(saveTenantDetailsSQL, [
+        buildingId,
+        unitId,
+        rent,
+        securityDeposit,
+        tenantInfo.firstName,
+        tenantInfo.lastName,
+        tenantInfo.streetAddressLine1,
+        tenantInfo.streetAddressLine2,
+        tenantInfo.city,
+        tenantInfo.state,
+        tenantInfo.pincode,
+        tenantInfo.country,
+        tenantInfo.phoneHome,
+        tenantInfo.phoneWork,
+        tenantInfo.phoneEmergency,
+        tenantInfo.email,
+        tenantInfo.notes,
+        profilePhotosJson,
+        tenantDocsJson,
+        amenities,
+        checkInDate,
+        false
+      ]);
+    }
+
+    appDataDb.dispose();
+  }
 }

@@ -63,12 +63,11 @@ class _EditRentWidgetDesktopState extends State<EditRentWidgetDesktop> {
               }
               if (rent != widget.rent) {
                 await Provider.of<BuildingProvider>(context, listen: false)
-                    .updateUnitRent(widget.buildingID, widget.unitID, rent)
-                    .whenComplete(() {
-                  _textRentEditingController.clear();
+                    .updateUnitRent(widget.buildingID, widget.unitID, rent,
+                        DateTime.now().millisecondsSinceEpoch);
 
-                  Navigator.pop(context);
-                });
+                _textRentEditingController.clear();
+                Navigator.pop(context);
               } else {
                 Navigator.pop(context);
               }

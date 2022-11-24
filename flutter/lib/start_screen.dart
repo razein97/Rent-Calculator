@@ -20,6 +20,7 @@ class _StartScreenState extends State<StartScreen> {
   @override
   void initState() {
     super.initState();
+
     _databaseStuff().whenComplete(() =>
         Provider.of<BuildingProvider>(context, listen: false)
             .getNumberOfBuildings()
@@ -40,7 +41,8 @@ class _StartScreenState extends State<StartScreen> {
       bool fileExists = await File(dbPath).exists();
 
       if (!fileExists) {
-        await DatabaseHelpers.createAppDataDb(dbPath);
+        await DatabaseHelpers.createAppDataDb(dbPath)
+            .catchError((e) => debugPrint(e));
       }
     } else {
       await Directory(savePath).create(recursive: true);
@@ -48,7 +50,8 @@ class _StartScreenState extends State<StartScreen> {
       bool fileExists = await File(dbPath).exists();
 
       if (!fileExists) {
-        await DatabaseHelpers.createAppDataDb(dbPath);
+        await DatabaseHelpers.createAppDataDb(dbPath)
+            .catchError((e) => debugPrint(e));
       }
     }
   }

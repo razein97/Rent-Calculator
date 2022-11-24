@@ -1,26 +1,29 @@
-const createTableBuildings = ('''CREATE TABLE buildings(
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT,
-                    address TEXT,
-                    units INT
-                    );''');
+const String createTableBuildingsSQL = '''CREATE TABLE "buildings" (
+	"id"	INTEGER NOT NULL UNIQUE,
+	"name"	TEXT,
+	"address"	TEXT,
+	"units"	INTEGER,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);''';
 
-const createTableUnits = ('''CREATE TABLE units(
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+const String createTableUnitsSQL = '''CREATE TABLE units(
+                    id INTEGER NOT NULL UNIQUE,
                     building_id INT,
                     unit_name TEXT,
-                    tenant_ids TEXT,
-                    electricity_unit REAL,
                     rent REAL,
+                    electricity_unit REAL,
                     amenities TEXT,
-                    rented_status BOOL
-                    );''');
+                    rented_status BOOL,
+                    PRIMARY KEY("id" AUTOINCREMENT)
+                    );''';
 
-const createTableTenantDetails = ('''
+const String createTableTenantDetailsSQL = '''
 CREATE TABLE "tenant_details" (
-	"id"	INTEGER UNIQUE,
+	"id"	INTEGER NOT NULL UNIQUE,
   "building_id" INTEGER,
   "unit_id" INTEGER,
+  "rent" REAL,
+  "security_deposit" REAL,
 	"first_name"	TEXT,
 	"last_name"	TEXT,
 	"street_address_1"	TEXT,
@@ -36,11 +39,62 @@ CREATE TABLE "tenant_details" (
 	"notes"	TEXT,
 	"profile_photos"	TEXT,
 	"documents"	TEXT,
+  "amenities" TEXT,
 	"in_date"	INTEGER,
 	"out_date"	INTEGER,
+  "is_checked_out" BOOL,
 	PRIMARY KEY("id" AUTOINCREMENT)
-);''');
+);''';
 
-const saveTenantDetails = ('''
-INSERT INTO tenant_details (building_id, unit_id, first_name, last_name, street_address_1, street_address_2, city, state, postal_code, country, phone_home, phone_work, phone_emergency, email, notes, profile_photos, documents, in_date) VALUES
-''');
+const String createTransactionsSQL = '''
+CREATE TABLE "transactions" (
+	"id"	INTEGER NOT NULL UNIQUE,
+	"building_id"	INTEGER,
+	"unit_id"	INTEGER,
+	"date"	INTEGER,
+	"current_electricity_unit"	REAL,
+	"previous_electricity_unit"	REAL,
+	"tenants"	TEXT,
+	"electricity_cost"	REAL,
+	"rent_amount"	REAL,
+	"total_cost"	REAL,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);''';
+
+const String createRentAmountSQL = '''
+CREATE TABLE "units_rents" (
+	"id"	INTEGER NOT NULL UNIQUE,
+	"building_id"	INTEGER,
+	"unit_id"	INTEGER,
+	"rent_amount"	REAL,
+	"date"	INTEGER,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);''';
+
+const String saveTenantDetailsSQL = '''
+INSERT INTO tenant_details 
+(building_id,
+unit_id,
+rent,
+security_deposit,
+first_name,
+last_name,
+street_address_1,
+street_address_2,
+city,
+state, 
+postal_code,
+country,
+phone_home,
+phone_work,
+phone_emergency,
+email,
+notes,
+profile_photos,
+documents,
+amenities,
+in_date,
+is_checked_out,) 
+VALUES 
+(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
+''';

@@ -22,17 +22,22 @@ class BuildingProvider extends ChangeNotifier {
     return units;
   }
 
-  Future<void> createUnit(int bID, String uName, double rent) async {
+  Future<int> createUnit(int bID, String uName, double uRent) async {
     // debugPrint(rent.toString());
-    await DatabaseHelpers.createUnit(bID, uName, rent);
+    int unitID = await DatabaseHelpers.createUnit(bID, uName, uRent);
     await getNumberOfUnits(bID);
     await getNumberOfBuildings();
     notifyListeners();
+    return unitID;
   }
 
-  Future<void> updateUnitRent(int bID, int uID, double rent) async {
-    await DatabaseHelpers.updateUnitRent(bID, uID, rent);
+  Future<void> updateUnitRent(int bID, int uID, double rent, int date) async {
+    await DatabaseUnitHelpers.updateUnitRent(bID, uID, rent, date);
     await getNumberOfUnits(bID);
     notifyListeners();
+  }
+
+  Future<double> getUnitRent(int bID, int uID) async {
+    return await DatabaseUnitHelpers.getUnitRent(bID, uID);
   }
 }

@@ -133,16 +133,24 @@ class _AppBarUnitsState extends State<AppBarUnits> {
                                       _textRentEditingController.text);
                                 }
 
-                                await Provider.of<BuildingProvider>(context,
+                                Provider.of<BuildingProvider>(context,
                                         listen: false)
                                     .createUnit(widget.buildingID,
                                         _textNameEditingController.text, rent)
-                                    .whenComplete(() {
-                                  _textNameEditingController.clear();
-                                  _textRentEditingController.clear();
-
-                                  Navigator.pop(context);
-                                });
+                                    .then((value) =>
+                                        Provider.of<BuildingProvider>(context,
+                                                listen: false)
+                                            .updateUnitRent(
+                                                widget.buildingID,
+                                                value,
+                                                rent,
+                                                DateTime.now()
+                                                    .millisecondsSinceEpoch)
+                                            .whenComplete(() {
+                                          _textNameEditingController.clear();
+                                          _textRentEditingController.clear();
+                                          Navigator.pop(context);
+                                        }));
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,

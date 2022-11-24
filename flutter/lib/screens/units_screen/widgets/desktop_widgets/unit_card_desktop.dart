@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:provider/provider.dart';
+import 'package:rent_calculator/providers/building_provider.dart';
 import 'package:rent_calculator/routing/router.gr.dart' as auto_router;
 import 'package:rent_calculator/screens/units_screen/widgets/desktop_widgets/available_dialog_widget_desktop.dart';
 import 'package:rent_calculator/screens/units_screen/widgets/desktop_widgets/edit_rent_widget_desktop.dart';
@@ -10,17 +12,17 @@ class UnitCardDesktop extends StatelessWidget {
   final String nameOfUnit;
   final bool rentedStatus;
   final int unitID;
-  final double rent;
   final double width;
   final double height;
+  final double rent;
   const UnitCardDesktop(
       {super.key,
       required this.nameOfUnit,
       required this.width,
       required this.height,
       required this.rentedStatus,
-      required this.rent,
       required this.buildingID,
+      required this.rent,
       required this.unitID});
 
   @override

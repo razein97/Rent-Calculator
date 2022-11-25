@@ -50,13 +50,9 @@ class AppRouter extends _i6.RootStackRouter {
       );
     },
     UnitDetailsScreen.name: (routeData) {
-      final args = routeData.argsAs<UnitDetailsScreenArgs>();
       return _i6.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: _i4.UnitDetailsScreen(
-          key: args.key,
-          unitName: args.unitName,
-        ),
+        child: const _i4.UnitDetailsScreen(),
       );
     },
     AddTenantScreen.name: (routeData) {
@@ -68,7 +64,6 @@ class AppRouter extends _i6.RootStackRouter {
           buildingID: args.buildingID,
           unitID: args.unitID,
           unitName: args.unitName,
-          unitRent: args.unitRent,
         ),
         transitionsBuilder: _i6.TransitionsBuilders.slideBottom,
         opaque: true,
@@ -167,36 +162,14 @@ class UnitsScreenArgs {
 
 /// generated route for
 /// [_i4.UnitDetailsScreen]
-class UnitDetailsScreen extends _i6.PageRouteInfo<UnitDetailsScreenArgs> {
-  UnitDetailsScreen({
-    _i7.Key? key,
-    required String unitName,
-  }) : super(
+class UnitDetailsScreen extends _i6.PageRouteInfo<void> {
+  const UnitDetailsScreen()
+      : super(
           UnitDetailsScreen.name,
           path: '/unit-details-screen',
-          args: UnitDetailsScreenArgs(
-            key: key,
-            unitName: unitName,
-          ),
         );
 
   static const String name = 'UnitDetailsScreen';
-}
-
-class UnitDetailsScreenArgs {
-  const UnitDetailsScreenArgs({
-    this.key,
-    required this.unitName,
-  });
-
-  final _i7.Key? key;
-
-  final String unitName;
-
-  @override
-  String toString() {
-    return 'UnitDetailsScreenArgs{key: $key, unitName: $unitName}';
-  }
 }
 
 /// generated route for
@@ -207,7 +180,6 @@ class AddTenantScreen extends _i6.PageRouteInfo<AddTenantScreenArgs> {
     required int buildingID,
     required int unitID,
     required String unitName,
-    required double unitRent,
   }) : super(
           AddTenantScreen.name,
           path: '/add-tenant-screen',
@@ -216,7 +188,6 @@ class AddTenantScreen extends _i6.PageRouteInfo<AddTenantScreenArgs> {
             buildingID: buildingID,
             unitID: unitID,
             unitName: unitName,
-            unitRent: unitRent,
           ),
         );
 
@@ -229,7 +200,6 @@ class AddTenantScreenArgs {
     required this.buildingID,
     required this.unitID,
     required this.unitName,
-    required this.unitRent,
   });
 
   final _i7.Key? key;
@@ -240,10 +210,8 @@ class AddTenantScreenArgs {
 
   final String unitName;
 
-  final double unitRent;
-
   @override
   String toString() {
-    return 'AddTenantScreenArgs{key: $key, buildingID: $buildingID, unitID: $unitID, unitName: $unitName, unitRent: $unitRent}';
+    return 'AddTenantScreenArgs{key: $key, buildingID: $buildingID, unitID: $unitID, unitName: $unitName}';
   }
 }

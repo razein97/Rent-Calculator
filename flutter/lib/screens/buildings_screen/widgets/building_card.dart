@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:rent_calculator/routing/router.gr.dart' as auto_router;
+import 'package:rent_calculator/values/temp_values.dart';
 
 class BuildingCard extends StatelessWidget {
   final int buildingId;
@@ -22,6 +23,8 @@ class BuildingCard extends StatelessWidget {
       fillColor: Colors.blue,
       hoverColor: Colors.blue.shade600,
       onPressed: () {
+        TempValues.curBuildingID = buildingId;
+        TempValues.curBuildingName = nameOfBuilding;
         AutoRouter.of(context).push(auto_router.UnitsScreen(
             buildingID: buildingId, buildingName: nameOfBuilding));
       },

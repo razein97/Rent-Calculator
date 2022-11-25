@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_alt/modal_progress_hud_alt.dart';
 import 'package:provider/provider.dart';
 import 'package:rent_calculator/helpers/sizes_helpers.dart';
+import 'package:rent_calculator/providers/building_provider.dart';
 import 'package:rent_calculator/providers/tenants_provider.dart';
 import 'package:rent_calculator/screens/add_tenant_screen/widgets/app_bar_add_new_tenant.dart';
 import 'package:rent_calculator/screens/add_tenant_screen/widgets/tenant_details.dart';
@@ -16,14 +17,13 @@ class AddTenantViewDesktop extends StatefulWidget {
   final int buildingID;
   final int unitID;
   final String unitName;
-  final double unitRent;
 
-  const AddTenantViewDesktop(
-      {super.key,
-      required this.buildingID,
-      required this.unitID,
-      required this.unitName,
-      required this.unitRent});
+  const AddTenantViewDesktop({
+    super.key,
+    required this.buildingID,
+    required this.unitID,
+    required this.unitName,
+  });
 
   @override
   State<AddTenantViewDesktop> createState() => _AddTenantViewDesktopState();
@@ -34,6 +34,7 @@ class _AddTenantViewDesktopState extends State<AddTenantViewDesktop> {
   final _formKeyUnitDetails = GlobalKey<FormBuilderState>();
   List<int> amenitiesInt = [];
   int amenitiesCount = 0;
+  double rent = 0.0;
 
   @override
   void dispose() {
@@ -43,7 +44,12 @@ class _AddTenantViewDesktopState extends State<AddTenantViewDesktop> {
   @override
   void initState() {
     super.initState();
-    Provider.of<TenantProvider>(context, listen: false).tenantsDetails = [];
+    Provider.of<BuildingProvider>(context, listen: false)
+        .getUnitRent(widget.buildingID, widget.unitID)
+        .then((value) {
+      _formKeyUnitDetails.currentState!.fields['unit_rent']!
+          .didChange(value.toString());
+    });
   }
 
   @override
@@ -122,8 +128,7 @@ class _AddTenantViewDesktopState extends State<AddTenantViewDesktop> {
                                       width: 200,
                                       child: FormBuilderTextField(
                                         name: 'unit_rent',
-                                        initialValue:
-                                            widget.unitRent.toString(),
+                                        initialValue: rent.toString(),
                                         keyboardType: const TextInputType
                                             .numberWithOptions(decimal: true),
                                         inputFormatters: [

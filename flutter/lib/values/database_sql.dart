@@ -11,6 +11,7 @@ const String createTableUnitsSQL = '''CREATE TABLE units(
                     building_id INT,
                     unit_name TEXT,
                     rent REAL,
+                    security_deposit REAL,
                     electricity_unit REAL,
                     amenities TEXT,
                     rented_status BOOL,
@@ -94,7 +95,23 @@ profile_photos,
 documents,
 amenities,
 in_date,
-is_checked_out,) 
+is_checked_out) 
 VALUES 
 (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
+''';
+
+const String updateTenantDetailsSQL = '''
+UPDATE tenant_details SET first_name = ?, last_name = ?, street_address_1 = ?, 
+street_address_2 = ?, 
+city = ?, 
+state = ?, 
+postal_code = ?, 
+country = ?, 
+phone_home = ?, 
+phone_work = ?, 
+phone_emergency = ?, 
+email = ?, 
+notes = ?, 
+profile_photos = ?, 
+documents = ? WHERE id = ? AND building_id = ? AND unit_id = ?;
 ''';

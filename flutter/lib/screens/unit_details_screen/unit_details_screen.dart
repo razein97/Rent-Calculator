@@ -3,11 +3,8 @@ import 'package:rent_calculator/screens/unit_details_screen/views/unit_details_v
 import 'package:responsive_builder/responsive_builder.dart';
 
 class UnitDetailsScreen extends StatelessWidget {
-  final String unitName;
-
   const UnitDetailsScreen({
     super.key,
-    required this.unitName,
   });
 
   @override
@@ -15,15 +12,9 @@ class UnitDetailsScreen extends StatelessWidget {
     return ScreenTypeLayout(
       // breakpoints: ScreenBreakpoints(mobile),
 
-      mobile: UnitDetailsViewDesktop(
-        unitName: unitName,
-      ),
-      tablet: UnitDetailsViewDesktop(
-        unitName: unitName,
-      ),
-      desktop: UnitDetailsViewDesktop(
-        unitName: unitName,
-      ),
+      mobile: UnitDetailsViewDesktop(),
+      tablet: UnitDetailsViewDesktop(),
+      desktop: UnitDetailsViewDesktop(),
     );
   }
 }

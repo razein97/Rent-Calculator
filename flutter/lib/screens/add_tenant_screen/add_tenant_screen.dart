@@ -6,13 +6,13 @@ class AddTenantScreen extends StatelessWidget {
   final int buildingID;
   final int unitID;
   final String unitName;
-  final double unitRent;
-  const AddTenantScreen(
-      {super.key,
-      required this.buildingID,
-      required this.unitID,
-      required this.unitName,
-      required this.unitRent});
+
+  const AddTenantScreen({
+    super.key,
+    required this.buildingID,
+    required this.unitID,
+    required this.unitName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,19 +23,16 @@ class AddTenantScreen extends StatelessWidget {
         buildingID: buildingID,
         unitID: unitID,
         unitName: unitName,
-        unitRent: unitRent,
       ),
       tablet: AddTenantViewDesktop(
         buildingID: buildingID,
         unitID: unitID,
         unitName: unitName,
-        unitRent: unitRent,
       ),
       desktop: AddTenantViewDesktop(
         buildingID: buildingID,
         unitID: unitID,
         unitName: unitName,
-        unitRent: unitRent,
       ),
     );
   }

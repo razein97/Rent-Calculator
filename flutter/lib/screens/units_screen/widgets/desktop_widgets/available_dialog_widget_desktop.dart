@@ -2,19 +2,21 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:provider/provider.dart';
+import 'package:rent_calculator/providers/tenants_provider.dart';
 import 'package:rent_calculator/routing/router.gr.dart' as auto_router;
 
 class AvailableDialogWidgetDesktop extends StatelessWidget {
   final int buildingID;
   final int unitID;
   final String unitName;
-  final double unitRent;
-  const AvailableDialogWidgetDesktop(
-      {super.key,
-      required this.buildingID,
-      required this.unitID,
-      required this.unitName,
-      required this.unitRent});
+
+  const AvailableDialogWidgetDesktop({
+    super.key,
+    required this.buildingID,
+    required this.unitID,
+    required this.unitName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +41,14 @@ class AvailableDialogWidgetDesktop extends StatelessWidget {
           height: 50.0,
           child: ElevatedButton(
             onPressed: () {
+              Provider.of<TenantProvider>(context, listen: false)
+                  .tenantsDetails = [];
+
               AutoRouter.of(context).popAndPush(auto_router.AddTenantScreen(
-                  buildingID: buildingID,
-                  unitID: unitID,
-                  unitName: unitName,
-                  unitRent: unitRent));
+                buildingID: buildingID,
+                unitID: unitID,
+                unitName: unitName,
+              ));
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,

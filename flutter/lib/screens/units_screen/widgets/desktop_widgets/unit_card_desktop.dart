@@ -6,6 +6,7 @@ import 'package:rent_calculator/providers/building_provider.dart';
 import 'package:rent_calculator/routing/router.gr.dart' as auto_router;
 import 'package:rent_calculator/screens/units_screen/widgets/desktop_widgets/available_dialog_widget_desktop.dart';
 import 'package:rent_calculator/screens/units_screen/widgets/desktop_widgets/edit_rent_widget_desktop.dart';
+import 'package:rent_calculator/values/temp_values.dart';
 
 class UnitCardDesktop extends StatelessWidget {
   final int buildingID;
@@ -35,16 +36,16 @@ class UnitCardDesktop extends StatelessWidget {
           side: BorderSide(color: Color.fromARGB(255, 68, 68, 68), width: 0.2),
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       onPressed: () {
+        TempValues.curUnitID = unitID;
+        TempValues.curUnitName = nameOfUnit;
         rentedStatus
-            ? AutoRouter.of(context)
-                .push(auto_router.UnitDetailsScreen(unitName: nameOfUnit))
+            ? AutoRouter.of(context).push(const auto_router.UnitDetailsScreen())
             : showDialog(
                 context: context,
                 builder: (BuildContext context) => AvailableDialogWidgetDesktop(
                       buildingID: buildingID,
                       unitID: unitID,
                       unitName: nameOfUnit,
-                      unitRent: rent,
                     ));
       },
       child: SizedBox(

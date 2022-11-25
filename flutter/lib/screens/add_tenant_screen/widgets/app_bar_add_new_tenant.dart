@@ -41,6 +41,7 @@ class AppBarAddNewTenant extends StatelessWidget with PreferredSizeWidget {
               onPressed: () {
                 bool? validated = controller.currentState?.saveAndValidate();
 
+                List<AmenitiesModel> amenities = [];
                 if (validated!) {
                   Provider.of<TenantProvider>(context, listen: false).saving =
                       true;
@@ -49,14 +50,11 @@ class AppBarAddNewTenant extends StatelessWidget with PreferredSizeWidget {
                   int checkInDate = controller.currentState
                       ?.fields['check_in_date']?.value.millisecondsSinceEpoch;
 
-                  List<AmenitiesModel> amenitiesMap = [];
-                  String amenitiesJson = '';
-
                   for (int i in amenitiesIntList) {
                     if (controller
                             .currentState!.fields['amenity_name_$i']!.value !=
                         null) {
-                      amenitiesMap.add(
+                      amenities.add(
                         AmenitiesModel(
                           controller
                               .currentState!.fields['amenity_name_$i']!.value
@@ -68,10 +66,6 @@ class AppBarAddNewTenant extends StatelessWidget with PreferredSizeWidget {
                     }
                   }
 
-                  if (amenitiesMap.isNotEmpty) {
-                    amenitiesJson = jsonEncode(amenitiesMap);
-                  }
-
                   double rent = double.parse(
                       controller.currentState!.fields['unit_rent']!.value);
 
@@ -79,14 +73,28 @@ class AppBarAddNewTenant extends StatelessWidget with PreferredSizeWidget {
                       .currentState!.fields['security_deposit']!.value);
 
                   Provider.of<TenantProvider>(context, listen: false)
-                      .saveTenantDetailsToDB(buildingId, unitID, rent,
-                          securityDeposit, amenitiesJson, checkInDate)
-                      .whenComplete(() => AutoRouter.of(context).replace(
-                          auto_router.UnitDetailsScreen(unitName: 'hello')));
+                      .saveTenantDetailsToDB(
+                          buildingId,
+                          unitID,
+                          rent,
+                          securityDeposit,
+                          amenities.isNotEmpty ? jsonEncode(amenities) : '',
+                          checkInDate)
+                      .whenComplete(() => AutoRouter.of(context)
+                          .replace(const auto_router.UnitDetailsScreen()));
 
                   //Update unit rent
                   Provider.of<BuildingProvider>(context, listen: false)
                       .updateUnitRent(buildingId, unitID, rent, checkInDate);
+
+                  //Update unit security deposit
+                  Provider.of<BuildingProvider>(context, listen: false)
+                      .updateUnitSecurityDeposit(
+                          buildingId, unitID, securityDeposit);
+
+                  //Add amenities
+                  Provider.of<BuildingProvider>(context, listen: false)
+                      .updateUnitAmenities(buildingId, unitID, amenities);
                 }
               },
               child: Row(

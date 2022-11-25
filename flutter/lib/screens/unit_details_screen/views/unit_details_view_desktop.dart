@@ -3,20 +3,24 @@ import 'package:rent_calculator/helpers/sizes_helpers.dart';
 import 'package:rent_calculator/screens/unit_details_screen/widgets/app_bar_unit_details.dart';
 import 'package:rent_calculator/screens/unit_details_screen/widgets/desktop_widgets/tenant_details_desktop.dart';
 import 'package:rent_calculator/screens/unit_details_screen/widgets/desktop_widgets/transactions_log_desktop.dart';
+import 'package:rent_calculator/values/temp_values.dart';
 
-class UnitDetailsViewDesktop extends StatelessWidget {
-  final String unitName;
+class UnitDetailsViewDesktop extends StatefulWidget {
   const UnitDetailsViewDesktop({
     super.key,
-    required this.unitName,
   });
 
+  @override
+  State<UnitDetailsViewDesktop> createState() => _UnitDetailsViewDesktopState();
+}
+
+class _UnitDetailsViewDesktopState extends State<UnitDetailsViewDesktop> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarUnitDetails(
         preferredSize: const Size(double.infinity, 60),
-        title: unitName,
+        title: TempValues.curUnitName,
       ),
 
       body: Column(

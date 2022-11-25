@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 
 class TenantInfo {
+  int? tenantID;
+  int? buildingID;
+  int? unitID;
   String? firstName;
   String? lastName;
   String? streetAddressLine1;
@@ -21,15 +26,19 @@ class TenantInfo {
 
 class TenantFiles {
   String fileName;
+  int size;
   Uint8List bytes;
-  String ext;
 
-  TenantFiles(this.fileName, this.bytes, this.ext);
+  TenantFiles(
+    this.fileName,
+    this.size,
+    this.bytes,
+  );
 
   Map toJson() => {
         'fileName': fileName,
-        'bytes': bytes,
-        'ext': ext,
+        'size': size,
+        'bytes': base64.encode(bytes),
       };
 }
 

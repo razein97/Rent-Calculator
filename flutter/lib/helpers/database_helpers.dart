@@ -134,6 +134,18 @@ class DatabaseHelpers {
 }
 
 class DatabaseUnitHelpers {
+  static Future<ResultSet> getUnitDetails(int bID, int uID) async {
+    final Directory appDocumentsDirectory =
+        await getApplicationDocumentsDirectory();
+    String path = '${appDocumentsDirectory.path}/RentCalculator/appData.db';
+
+    Database appDataDb = sqlite3.open(path);
+    ResultSet resultSet = appDataDb.select(
+        'SELECT * FROM units WHERE building_id = ? AND id = ?', [bID, uID]);
+    appDataDb.dispose();
+    return resultSet;
+  }
+
   static Future<void> updateUnitRent(
       int bID, int uID, double uRent, int date) async {
     final Directory appDocumentsDirectory =
@@ -152,6 +164,36 @@ class DatabaseUnitHelpers {
     appDataDb.dispose();
   }
 
+  static Future<void> updateUnitSecurityDeposit(
+      int bID, int uID, double uSecurityDeposit) async {
+    final Directory appDocumentsDirectory =
+        await getApplicationDocumentsDirectory();
+    String path = '${appDocumentsDirectory.path}/RentCalculator/appData.db';
+
+    Database appDataDb = sqlite3.open(path);
+
+    appDataDb.execute(
+        'UPDATE units SET security_deposit = ? WHERE id = ? AND building_id = ?',
+        [uSecurityDeposit, uID, bID]);
+
+    appDataDb.dispose();
+  }
+
+  static Future<void> updateUnitAmenities(
+      int bID, int uID, String amenitiesJson) async {
+    final Directory appDocumentsDirectory =
+        await getApplicationDocumentsDirectory();
+    String path = '${appDocumentsDirectory.path}/RentCalculator/appData.db';
+
+    Database appDataDb = sqlite3.open(path);
+
+    appDataDb.execute(
+        'UPDATE units SET amenities = ? WHERE id = ? AND building_id = ?',
+        [amenitiesJson, uID, bID]);
+
+    appDataDb.dispose();
+  }
+
   static Future<double> getUnitRent(int bID, int uID) async {
     final Directory appDocumentsDirectory =
         await getApplicationDocumentsDirectory();
@@ -161,6 +203,7 @@ class DatabaseUnitHelpers {
 
     ResultSet resultSet = appDataDb
         .select('SELECT rent_amount FROM units_rents ORDER BY id DESC LIMIT 1');
+    appDataDb.dispose();
     return resultSet.first['rent_amount'];
   }
 
@@ -197,9 +240,9 @@ class DatabaseTenantsHelper {
 
     for (TenantInfo tenantInfo in tenantInfos) {
       String profilePhotosJson =
-          JsonEncoder.jsonEncodeFile(tenantInfo.profilePhotos!);
+          JsonEncoderDecoder.jsonEncodeFile(tenantInfo.profilePhotos!);
       String tenantDocsJson =
-          JsonEncoder.jsonEncodeFile(tenantInfo.tenantDocs!);
+          JsonEncoderDecoder.jsonEncodeFile(tenantInfo.tenantDocs!);
 
       appDataDb.execute(saveTenantDetailsSQL, [
         buildingId,
@@ -227,6 +270,96 @@ class DatabaseTenantsHelper {
       ]);
     }
 
+    appDataDb.dispose();
+  }
+
+  static Future<ResultSet> getTenantDetails(int buildingID, int unitID) async {
+    final Directory appDocumentsDirectory =
+        await getApplicationDocumentsDirectory();
+    String path = '${appDocumentsDirectory.path}/RentCalculator/appData.db';
+    Database appDataDb = sqlite3.open(path);
+
+    ResultSet resultSet = appDataDb.select(
+        'SELECT * FROM tenant_details WHERE building_id = ? AND unit_id = ? AND is_checked_out = ?',
+        [buildingID, unitID, false]);
+
+    appDataDb.dispose();
+
+    return resultSet;
+  }
+
+  static Future<void> updateTenantDetails(
+      int tenantID, int buildingID, int unitID, TenantInfo info) async {
+    final Directory appDocumentsDirectory =
+        await getApplicationDocumentsDirectory();
+    String path = '${appDocumentsDirectory.path}/RentCalculator/appData.db';
+    Database appDataDb = sqlite3.open(path);
+
+    String profilePhotosJson =
+        JsonEncoderDecoder.jsonEncodeFile(info.profilePhotos!);
+    String tenantDocsJson = JsonEncoderDecoder.jsonEncodeFile(info.tenantDocs!);
+
+    appDataDb.execute(updateTenantDetailsSQL, [
+      info.firstName,
+      info.lastName,
+      info.streetAddressLine1,
+      info.streetAddressLine2,
+      info.city,
+      info.state,
+      info.pincode,
+      info.country,
+      info.phoneHome,
+      info.phoneWork,
+      info.phoneEmergency,
+      info.email,
+      info.notes,
+      profilePhotosJson,
+      tenantDocsJson,
+      tenantID,
+      buildingID,
+      unitID
+    ]);
+
+    appDataDb.dispose();
+  }
+
+  static Future<void> updateCurTenantSecurityDeposit(
+      int buildingID, int unitID, double uSecurityDeposit) async {
+    final Directory appDocumentsDirectory =
+        await getApplicationDocumentsDirectory();
+    String path = '${appDocumentsDirectory.path}/RentCalculator/appData.db';
+    Database appDataDb = sqlite3.open(path);
+    ResultSet resultSet = appDataDb.select(
+        'SELECT id FROM tenant_details WHERE building_id = ? AND unit_id = ? AND is_checked_out = ?',
+        [buildingID, unitID, false]);
+
+    if (resultSet.isNotEmpty) {
+      for (var result in resultSet) {
+        appDataDb.execute(
+            'UPDATE tenant_details SET security_deposit = ? WHERE id = ? AND building_id = ? AND unit_id= ?',
+            [uSecurityDeposit, result['id'], buildingID, unitID]);
+      }
+    }
+    appDataDb.dispose();
+  }
+
+  static Future<void> updateCurTenantAmenities(
+      int buildingID, int unitID, String amenitiesJson) async {
+    final Directory appDocumentsDirectory =
+        await getApplicationDocumentsDirectory();
+    String path = '${appDocumentsDirectory.path}/RentCalculator/appData.db';
+    Database appDataDb = sqlite3.open(path);
+    ResultSet resultSet = appDataDb.select(
+        'SELECT id FROM tenant_details WHERE building_id = ? AND unit_id = ? AND is_checked_out = ?',
+        [buildingID, unitID, false]);
+
+    if (resultSet.isNotEmpty) {
+      for (var result in resultSet) {
+        appDataDb.execute(
+            'UPDATE tenant_details SET amenities = ? WHERE id = ? AND building_id = ? AND unit_id= ?',
+            [amenitiesJson, result['id'], buildingID, unitID]);
+      }
+    }
     appDataDb.dispose();
   }
 }

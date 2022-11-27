@@ -153,12 +153,15 @@ class AppTheme {
     brightness: Brightness.light,
     textTheme: _lightTextTheme,
     primaryColor: _primaryColorLight,
+    buttonColor: Color.fromRGBO(3, 93, 196, 1),
     disabledColor: Colors.grey[200],
     visualDensity: VisualDensity.adaptivePlatformDensity,
     toggleableActiveColor: const Color.fromRGBO(168, 192, 223, 1),
     iconTheme: const IconThemeData(color: _primaryColorDark),
     dialogBackgroundColor: const Color.fromRGBO(244, 244, 244, 1),
     canvasColor: _primaryColorLight,
+    buttonTheme:
+        const ButtonThemeData(buttonColor: Color.fromRGBO(61, 14, 68, 1)),
   );
 
   //Dark theme Data
@@ -168,7 +171,9 @@ class AppTheme {
     textTheme: _darkTextTheme,
     primaryColor: _primaryColorDark,
     cardColor: _cardColorDark,
-    buttonColor: const Color.fromRGBO(13, 108, 215, 1),
+    buttonTheme:
+        const ButtonThemeData(buttonColor: Color.fromRGBO(61, 14, 68, 1)),
+    buttonColor: Color.fromRGBO(13, 108, 215, 1),
     disabledColor: const Color.fromRGBO(50, 50, 50, 1),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     toggleableActiveColor: const Color.fromRGBO(7, 36, 69, 1),

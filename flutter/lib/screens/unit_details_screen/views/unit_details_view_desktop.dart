@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rent_calculator/helpers/sizes_helpers.dart';
 import 'package:rent_calculator/screens/unit_details_screen/widgets/app_bar_unit_details.dart';
-import 'package:rent_calculator/screens/unit_details_screen/widgets/desktop_widgets/tenant_details_desktop.dart';
+import 'package:rent_calculator/screens/unit_details_screen/widgets/desktop_widgets/tenant_details_desktop_widget.dart';
 import 'package:rent_calculator/screens/unit_details_screen/widgets/desktop_widgets/transactions_log_desktop.dart';
 import 'package:rent_calculator/values/temp_values.dart';
 
@@ -26,7 +26,7 @@ class _UnitDetailsViewDesktopState extends State<UnitDetailsViewDesktop> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: const [
-          TentantDetailsDesktop(),
+          TentantDetailsDesktopWidget(),
           TransactionsLogDesktop(),
         ],
       ),

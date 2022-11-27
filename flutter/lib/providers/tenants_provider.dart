@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:rent_calculator/helpers/database_helpers.dart';
 import 'package:rent_calculator/helpers/json_file_encoders.dart';
@@ -27,10 +29,21 @@ class TenantProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> saveTenantDetailsToDB(int buildingID, int unitID, double rent,
-      double securityDeposit, String amenities, int checkInDate) async {
+  Future<void> saveTenantDetailsToDB(
+      int buildingID,
+      int unitID,
+      double rent,
+      double securityDeposit,
+      List<TenantInfo> tenantInfo,
+      List<AmenitiesModel> amenities,
+      int checkInDate) async {
+    String amenitiesJson = '';
+    if (amenities.isNotEmpty) {
+      amenitiesJson = jsonEncode(amenities);
+    }
+
     await DatabaseTenantsHelper.saveTenantDetails(buildingID, unitID, rent,
-        securityDeposit, tenantsDetails, amenities, checkInDate);
+        securityDeposit, tenantInfo, amenitiesJson, checkInDate);
     //Update status of unit to rented
     await DatabaseUnitHelpers.updateUnitRentedStatus(buildingID, unitID, true);
 

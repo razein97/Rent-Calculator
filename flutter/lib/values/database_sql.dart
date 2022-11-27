@@ -52,13 +52,16 @@ CREATE TABLE "transactions" (
 	"id"	INTEGER NOT NULL UNIQUE,
 	"building_id"	INTEGER,
 	"unit_id"	INTEGER,
-	"date"	INTEGER,
+	"date_created"	INTEGER,
+  "due_date" INTEGER,
 	"current_electricity_unit"	REAL,
 	"previous_electricity_unit"	REAL,
 	"tenants"	TEXT,
 	"electricity_cost"	REAL,
 	"rent_amount"	REAL,
+  "extra_charges" TEXT,
 	"total_cost"	REAL,
+  "status" BOOL,
 	PRIMARY KEY("id" AUTOINCREMENT)
 );''';
 

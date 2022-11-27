@@ -78,7 +78,8 @@ class AppBarAddNewTenant extends StatelessWidget with PreferredSizeWidget {
                           unitID,
                           rent,
                           securityDeposit,
-                          amenities.isNotEmpty ? jsonEncode(amenities) : '',
+                          context.read<TenantProvider>().tenantsDetails,
+                          amenities,
                           checkInDate)
                       .whenComplete(() => AutoRouter.of(context)
                           .replace(const auto_router.UnitDetailsScreen()));

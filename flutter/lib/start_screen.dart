@@ -2,12 +2,11 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rent_calculator/helpers/database_helpers/app_data_db_helper.dart';
 import 'package:rent_calculator/routing/router.gr.dart' as auto_router;
 import 'package:provider/provider.dart';
 import 'package:rent_calculator/providers/building_provider.dart';
 import 'package:path/path.dart' as p;
-
-import 'helpers/database_helpers.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
@@ -41,7 +40,7 @@ class _StartScreenState extends State<StartScreen> {
       bool fileExists = await File(dbPath).exists();
 
       if (!fileExists) {
-        await DatabaseHelpers.createAppDataDb(dbPath)
+        await AppDataDBHelper.createAppDataDb(dbPath)
             .catchError((e) => debugPrint(e));
       }
     } else {
@@ -50,7 +49,7 @@ class _StartScreenState extends State<StartScreen> {
       bool fileExists = await File(dbPath).exists();
 
       if (!fileExists) {
-        await DatabaseHelpers.createAppDataDb(dbPath)
+        await AppDataDBHelper.createAppDataDb(dbPath)
             .catchError((e) => debugPrint(e));
       }
     }

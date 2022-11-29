@@ -1,17 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:provider/provider.dart';
-import 'package:rent_calculator/providers/building_provider.dart';
 import 'package:rent_calculator/routing/router.gr.dart' as auto_router;
 import 'package:rent_calculator/screens/units_screen/widgets/desktop_widgets/available_dialog_widget_desktop.dart';
 import 'package:rent_calculator/screens/units_screen/widgets/desktop_widgets/edit_rent_widget_desktop.dart';
-import 'package:rent_calculator/values/temp_values.dart';
 
 class UnitCardDesktop extends StatelessWidget {
   final int buildingID;
   final String nameOfUnit;
   final bool rentedStatus;
+  final int rentedDate;
   final int unitID;
   final double width;
   final double height;
@@ -24,7 +22,8 @@ class UnitCardDesktop extends StatelessWidget {
       required this.rentedStatus,
       required this.buildingID,
       required this.rent,
-      required this.unitID});
+      required this.unitID,
+      required this.rentedDate});
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +35,9 @@ class UnitCardDesktop extends StatelessWidget {
           side: BorderSide(color: Color.fromARGB(255, 68, 68, 68), width: 0.2),
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       onPressed: () {
-        TempValues.curUnitID = unitID;
-        TempValues.curUnitName = nameOfUnit;
         rentedStatus
-            ? AutoRouter.of(context).push(const auto_router.UnitDetailsScreen())
+            ? AutoRouter.of(context)
+                .push(auto_router.UnitDetailsScreen(unitID: unitID))
             : showDialog(
                 context: context,
                 builder: (BuildContext context) => AvailableDialogWidgetDesktop(

@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:rent_calculator/helpers/database_helpers.dart';
+import 'package:rent_calculator/helpers/database_helpers/buildings_data_db_helper.dart';
+import 'package:rent_calculator/helpers/database_helpers/tenants_data_db_helper.dart';
+import 'package:rent_calculator/helpers/database_helpers/units_data_db_helper.dart';
 import 'package:rent_calculator/models/tenant_info_model.dart';
 import 'package:rent_calculator/models/units_model.dart';
 import 'package:sqlite3/common.dart';
@@ -10,24 +12,24 @@ class BuildingProvider extends ChangeNotifier {
   UnitsModel unitsDetails = UnitsModel();
 
   Future<void> getNumberOfBuildings() async {
-    buildings = await DatabaseHelpers.getAllBuildings();
+    buildings = await BuildingsDataDBHelper.getAllBuildings();
   }
 
   Future<void> createBuilding(String bName, String bAdd, int bComp) async {
-    await DatabaseHelpers.createBuilding(bName, bAdd, bComp);
+    await BuildingsDataDBHelper.createBuilding(bName, bAdd, bComp);
     await getNumberOfBuildings();
     notifyListeners();
   }
 
   late int unitsInBuilding;
   Future<ResultSet> getNumberOfUnits(int buildingID) async {
-    ResultSet units = await DatabaseHelpers.getAllUnitsInBID(buildingID);
+    ResultSet units = await BuildingsDataDBHelper.getAllUnitsInBID(buildingID);
     unitsInBuilding = units.length;
     return units;
   }
 
   Future<int> createUnit(int bID, String uName, double uRent) async {
-    int unitID = await DatabaseHelpers.createUnit(bID, uName, uRent);
+    int unitID = await UnitsDataDBHelper.createUnit(bID, uName, uRent);
     await getNumberOfUnits(bID);
     await getNumberOfBuildings();
     notifyListeners();
@@ -35,20 +37,20 @@ class BuildingProvider extends ChangeNotifier {
   }
 
   Future<void> updateUnitRent(int bID, int uID, double rent, int date) async {
-    await DatabaseUnitHelpers.updateUnitRent(bID, uID, rent, date);
+    await UnitsDataDBHelper.updateUnitRent(bID, uID, rent, date);
     await getNumberOfUnits(bID);
     notifyListeners();
   }
 
   Future<double> getUnitRent(int bID, int uID) async {
-    return await DatabaseUnitHelpers.getUnitRent(bID, uID);
+    return await UnitsDataDBHelper.getUnitRent(bID, uID);
   }
 
   Future<void> updateUnitSecurityDeposit(
       int bID, int uID, double securityDeposit) async {
-    await DatabaseUnitHelpers.updateUnitSecurityDeposit(
+    await UnitsDataDBHelper.updateUnitSecurityDeposit(
         bID, uID, securityDeposit);
-    await DatabaseTenantsHelper.updateCurTenantSecurityDeposit(
+    await TenantsDataDBHelper.updateCurTenantSecurityDeposit(
         bID, uID, securityDeposit);
   }
 
@@ -58,15 +60,14 @@ class BuildingProvider extends ChangeNotifier {
     if (amenities.isNotEmpty) {
       amenitiesJson = jsonEncode(amenities);
     }
-    await DatabaseUnitHelpers.updateUnitAmenities(bID, uID, amenitiesJson);
-    await DatabaseTenantsHelper.updateCurTenantAmenities(
-        bID, uID, amenitiesJson);
+    await UnitsDataDBHelper.updateUnitAmenities(bID, uID, amenitiesJson);
+    await TenantsDataDBHelper.updateCurTenantAmenities(bID, uID, amenitiesJson);
     await getUnitDetails(bID, uID);
     notifyListeners();
   }
 
   Future<void> getUnitDetails(int bID, int uID) async {
-    ResultSet resultSet = await DatabaseUnitHelpers.getUnitDetails(bID, uID);
+    ResultSet resultSet = await UnitsDataDBHelper.getUnitDetails(bID, uID);
     List<AmenitiesModel> amenities = [];
     if (resultSet.isNotEmpty) {
       unitsDetails.unitId = resultSet.first['id'];
@@ -77,8 +78,9 @@ class BuildingProvider extends ChangeNotifier {
       unitsDetails.electricityUnit = resultSet.first['electricity_unit'];
       unitsDetails.rentedStatus =
           resultSet.first['rented_status'] == 1 ? true : false;
+      unitsDetails.rentedDate = resultSet.first['rented_date'];
 
-      if (resultSet.first['amenities'] != null) {
+      if (resultSet.first['amenities'].toString().isNotEmpty) {
         List decoded = jsonDecode(resultSet.first['amenities']);
         for (var i in decoded) {
           amenities.add(AmenitiesModel(i['amenityName'], i['amenityPrice']));

@@ -31,6 +31,7 @@ class _NotEmptyUnitDesktop extends State<NotEmptyUnitDesktop> {
                     unitID: row['id'],
                     rent: row['rent'],
                     rentedStatus: row['rented_status'] == 1 ? true : false,
+                    rentedDate: row['rented_date'],
                     width: 300,
                     height: 250),
               )

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -81,8 +80,8 @@ class AppBarAddNewTenant extends StatelessWidget with PreferredSizeWidget {
                           context.read<TenantProvider>().tenantsDetails,
                           amenities,
                           checkInDate)
-                      .whenComplete(() => AutoRouter.of(context)
-                          .replace(const auto_router.UnitDetailsScreen()));
+                      .whenComplete(() => AutoRouter.of(context).replace(
+                          auto_router.UnitDetailsScreen(unitID: unitID)));
 
                   //Update unit rent
                   Provider.of<BuildingProvider>(context, listen: false)

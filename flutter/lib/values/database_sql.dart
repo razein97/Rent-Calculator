@@ -13,8 +13,10 @@ const String createTableUnitsSQL = '''CREATE TABLE units(
                     rent REAL,
                     security_deposit REAL,
                     electricity_unit REAL,
+                    electricity_unit_charge REAL,
                     amenities TEXT,
                     rented_status BOOL,
+                    rented_date INT,
                     PRIMARY KEY("id" AUTOINCREMENT)
                     );''';
 
@@ -56,6 +58,8 @@ CREATE TABLE "transactions" (
   "due_date" INTEGER,
 	"current_electricity_unit"	REAL,
 	"previous_electricity_unit"	REAL,
+  "amenities" TEXT,
+  "amenitites_charge" REAL,
 	"tenants"	TEXT,
 	"electricity_cost"	REAL,
 	"rent_amount"	REAL,

@@ -9,4 +9,5 @@ class UnitsModel {
   double? electricityUnit;
   List<AmenitiesModel>? amenities;
   bool? rentedStatus;
+  int? rentedDate;
 }

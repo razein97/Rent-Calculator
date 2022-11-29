@@ -1,10 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:rent_calculator/helpers/database_helpers.dart';
+import 'package:rent_calculator/helpers/database_helpers/tenants_data_db_helper.dart';
+import 'package:rent_calculator/helpers/database_helpers/units_data_db_helper.dart';
 import 'package:rent_calculator/helpers/json_file_encoders.dart';
 import 'package:rent_calculator/models/tenant_info_model.dart';
-import 'package:rent_calculator/providers/building_provider.dart';
 import 'package:sqlite3/common.dart';
 
 class TenantProvider extends ChangeNotifier {
@@ -25,6 +24,8 @@ class TenantProvider extends ChangeNotifier {
   }
 
   void removeTenant(TenantInfo info) {
+    TenantsDataDBHelper.removeTenantFromDB(
+        info.tenantID!, info.buildingID!, info.unitID!);
     tenantsDetails.remove(info);
     notifyListeners();
   }
@@ -42,10 +43,11 @@ class TenantProvider extends ChangeNotifier {
       amenitiesJson = jsonEncode(amenities);
     }
 
-    await DatabaseTenantsHelper.saveTenantDetails(buildingID, unitID, rent,
+    await TenantsDataDBHelper.saveTenantDetails(buildingID, unitID, rent,
         securityDeposit, tenantInfo, amenitiesJson, checkInDate);
     //Update status of unit to rented
-    await DatabaseUnitHelpers.updateUnitRentedStatus(buildingID, unitID, true);
+    await UnitsDataDBHelper.updateUnitRentedStatus(
+        buildingID, unitID, true, checkInDate);
 
     saving = false;
     notifyListeners();
@@ -54,7 +56,7 @@ class TenantProvider extends ChangeNotifier {
   Future<void> getTenantDetailsFromDB(int buildingID, int unitID) async {
     tenantsDetails.clear();
     ResultSet resultSet =
-        await DatabaseTenantsHelper.getTenantDetails(buildingID, unitID);
+        await TenantsDataDBHelper.getTenantDetails(buildingID, unitID);
     if (resultSet.isNotEmpty) {
       for (var result in resultSet) {
         TenantInfo info = TenantInfo();
@@ -87,7 +89,7 @@ class TenantProvider extends ChangeNotifier {
 
   Future<void> updateTenantDetailsInDB(
       int tenantID, int buildingID, int unitID, TenantInfo info) async {
-    await DatabaseTenantsHelper.updateTenantDetails(
+    await TenantsDataDBHelper.updateTenantDetails(
         tenantID, buildingID, unitID, info);
   }
 

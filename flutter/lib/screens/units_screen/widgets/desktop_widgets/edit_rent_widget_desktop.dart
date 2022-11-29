@@ -67,7 +67,9 @@ class _EditRentWidgetDesktopState extends State<EditRentWidgetDesktop> {
                         DateTime.now().millisecondsSinceEpoch);
 
                 _textRentEditingController.clear();
-                Navigator.pop(context);
+                if (mounted) {
+                  Navigator.pop(context);
+                }
               } else {
                 Navigator.pop(context);
               }

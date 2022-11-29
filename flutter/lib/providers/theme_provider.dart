@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:rent_calculator/styles.dart';
 import 'package:rent_calculator/values/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';

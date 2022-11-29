@@ -50,9 +50,13 @@ class AppRouter extends _i6.RootStackRouter {
       );
     },
     UnitDetailsScreen.name: (routeData) {
+      final args = routeData.argsAs<UnitDetailsScreenArgs>();
       return _i6.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i4.UnitDetailsScreen(),
+        child: _i4.UnitDetailsScreen(
+          key: args.key,
+          unitID: args.unitID,
+        ),
       );
     },
     AddTenantScreen.name: (routeData) {
@@ -162,14 +166,36 @@ class UnitsScreenArgs {
 
 /// generated route for
 /// [_i4.UnitDetailsScreen]
-class UnitDetailsScreen extends _i6.PageRouteInfo<void> {
-  const UnitDetailsScreen()
-      : super(
+class UnitDetailsScreen extends _i6.PageRouteInfo<UnitDetailsScreenArgs> {
+  UnitDetailsScreen({
+    _i7.Key? key,
+    required int unitID,
+  }) : super(
           UnitDetailsScreen.name,
           path: '/unit-details-screen',
+          args: UnitDetailsScreenArgs(
+            key: key,
+            unitID: unitID,
+          ),
         );
 
   static const String name = 'UnitDetailsScreen';
+}
+
+class UnitDetailsScreenArgs {
+  const UnitDetailsScreenArgs({
+    this.key,
+    required this.unitID,
+  });
+
+  final _i7.Key? key;
+
+  final int unitID;
+
+  @override
+  String toString() {
+    return 'UnitDetailsScreenArgs{key: $key, unitID: $unitID}';
+  }
 }
 
 /// generated route for

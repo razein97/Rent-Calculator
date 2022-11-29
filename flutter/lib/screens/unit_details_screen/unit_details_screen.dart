@@ -3,8 +3,10 @@ import 'package:rent_calculator/screens/unit_details_screen/views/unit_details_v
 import 'package:responsive_builder/responsive_builder.dart';
 
 class UnitDetailsScreen extends StatelessWidget {
+  final int unitID;
   const UnitDetailsScreen({
     super.key,
+    required this.unitID,
   });
 
   @override
@@ -12,9 +14,15 @@ class UnitDetailsScreen extends StatelessWidget {
     return ScreenTypeLayout(
       // breakpoints: ScreenBreakpoints(mobile),
 
-      mobile: UnitDetailsViewDesktop(),
-      tablet: UnitDetailsViewDesktop(),
-      desktop: UnitDetailsViewDesktop(),
+      mobile: UnitDetailsViewDesktop(
+        unitID: unitID,
+      ),
+      tablet: UnitDetailsViewDesktop(
+        unitID: unitID,
+      ),
+      desktop: UnitDetailsViewDesktop(
+        unitID: unitID,
+      ),
     );
   }
 }

@@ -1,0 +1,11 @@
+export enum user_profile_modals {
+	NONE,
+	PICTURE,
+	NAME,
+	EMAIL,
+	TWITTER,
+	FACEBOOK,
+	CHANGE_PASSWORD,
+	DEACTIVATE,
+	DELETE
+}

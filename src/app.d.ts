@@ -5,9 +5,21 @@ declare global {
 		// interface Error {}
 		// interface Locals {}
 		// interface PageData {}
-		// interface PageState {}
 		// interface Platform {}
+
+		interface PageData {
+			flash?: { type: 'success' | 'error'; message: string };
+		}
+
+		interface Locals {
+			user: User | null;
+		}
+	}
+	declare namespace svelteHTML {
+		interface HTMLAttributes<T> {
+			'on:clickoutside'?: (event: CustomEvent) => void;
+		}
 	}
 }
 
-export {};
+export { };

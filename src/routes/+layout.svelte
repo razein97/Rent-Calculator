@@ -5,17 +5,18 @@
 	import { page } from '$app/stores';
 	import { beforeNavigate } from '$app/navigation';
 	import { getFlash } from 'sveltekit-flash-message/client';
+	import SideBarMain from '$lib/components/sidebar/SideBarMain.svelte';
 
 	export let data: LayoutData;
 </script>
 
 <Toaster richColors closeButton />
 
-<div class="grid">
-	<Navbar />
+<div class="grid" data-sveltekit-preload-data="false">
+	<!-- <SideBarMain /> -->
 	<!-- <DrawerMenu {showUserMenu} /> -->
 
-	<div class="h-screen min-h-screen !scroll-smooth lg:ml-72">
+	<div class="h-screen min-h-screen !scroll-smooth">
 		<slot />
 	</div>
 </div>

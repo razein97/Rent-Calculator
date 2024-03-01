@@ -12,8 +12,8 @@
 	onMount(async () => {});
 </script>
 
-<div class="flex h-screen w-full p-2">
-	<Button href="/buildings" class="flex h-full w-full flex-col border">
+<div class="flex h-full w-full p-2">
+	<Button href="/properties" class="flex h-full w-full flex-col border">
 		<Icon class="mx-auto h-10 w-10" icon="fluent-emoji-flat:office-building" />
 		<p>Go to buildings</p>
 	</Button>

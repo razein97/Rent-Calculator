@@ -96,3 +96,10 @@ pub const CREATE_TABLE_RENT_AMOUNT_SQL: tauri_plugin_sql::Migration = Migration 
     );",
     kind: MigrationKind::Up,
 };
+
+pub const  CREATE_TABLE_AMENITIES_SQL : tauri_plugin_sql::Migration = Migration {
+    version: 1,
+    description: "create_amenities_table",
+    sql: "CREATE TABLE amenities (id INTEGER NOT NULL UNIQUE, amenity TEXT, price REAL,  PRIMARY KEY(id AUTOINCREMENT));",
+    kind: MigrationKind::Up,
+};

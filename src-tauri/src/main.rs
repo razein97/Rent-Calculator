@@ -2,8 +2,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use migration::{
-    CREATE_TABLE_PROPERTIES_SQL, CREATE_TABLE_RENT_AMOUNT_SQL, CREATE_TABLE_TENANT_DETAILS_SQL,
-    CREATE_TABLE_TRANSACTIONS_SQL, CREATE_TABLE_UNITS_SQL,
+    CREATE_TABLE_AMENITIES_SQL, CREATE_TABLE_PROPERTIES_SQL, CREATE_TABLE_RENT_AMOUNT_SQL,
+    CREATE_TABLE_TENANT_DETAILS_SQL, CREATE_TABLE_TRANSACTIONS_SQL, CREATE_TABLE_UNITS_SQL,
 };
 
 mod migration;
@@ -20,6 +20,7 @@ fn main() {
                         CREATE_TABLE_TENANT_DETAILS_SQL,
                         CREATE_TABLE_UNITS_SQL,
                         CREATE_TABLE_TRANSACTIONS_SQL,
+                        CREATE_TABLE_AMENITIES_SQL,
                     ],
                 )
                 .build(),

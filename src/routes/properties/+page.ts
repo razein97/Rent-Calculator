@@ -1,4 +1,3 @@
-import { error } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/client';
 import { zod } from 'sveltekit-superforms/adapters';
 import { z } from 'zod';
@@ -11,18 +10,22 @@ export const _propertySchema = z.object({
     number: z.string().default('0'),
 });
 
-export const load = async ({ params, fetch }) => {
+
+export const _editPropertySchema = z.object({
+
+    name: z.string().min(2),
+    address: z.string(),
+});
+
+export const load = async () => {
 
     const db = await Database.load('sqlite:rc.db');
-    // const id = parseInt(params.id);
 
-    // const request = await fetch(
-    //     `https://jsonplaceholder.typicode.com/users/${id}`
-    // );
-    // if (request.status >= 400) throw error(request.status);
+    const properties_result = await db.select('SELECT * FROM properties;');
 
-    // const userData = await request.json();
+
     const form = await superValidate(zod(_propertySchema));
+    const form2 = await superValidate(zod(_editPropertySchema));
 
-    return { form, db };
+    return { form, form2, db, properties_result };
 };
